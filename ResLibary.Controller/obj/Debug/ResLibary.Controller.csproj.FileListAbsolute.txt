@@ -1,0 +1,9 @@
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary.Controller\bin\Debug\ResLibary.Model.dll
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary.Controller\bin\Debug\UnityEngine.dll
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary.Controller\bin\Debug\ResLibary.Model.pdb
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary.Controller\bin\Debug\UnityEngine.xml
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary.Controller\obj\Debug\ResLibary.Controller.csprojResolveAssemblyReference.cache
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary.Controller\bin\Debug\ResLibary.Controller.dll
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary.Controller\bin\Debug\ResLibary.Controller.pdb
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary.Controller\obj\Debug\ResLibary.Controller.dll
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary.Controller\obj\Debug\ResLibary.Controller.pdb

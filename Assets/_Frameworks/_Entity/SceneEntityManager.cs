@@ -5,9 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace JXFrame.Entity
 {
-#if HOTFIX_ENABLE
-    [XLua.LuaCallCSharp]
-#endif
+
     public class SceneEntityManager : BaseEntityManager
     {
         public static SceneEntityManager Instance;

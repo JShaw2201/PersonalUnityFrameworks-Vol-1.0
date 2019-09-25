@@ -2,13 +2,87 @@
 using System.Collections;
 using System.IO;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace JXFrame.View
 {
     public delegate object LoadAction(string assetName);
 
-    public class UIFactory : MonoSingleton<UIFactory>
+    public class UIFactory : MonoBehaviour
     {
+        public static bool UNITY_Android;
+        public static bool UNITY_Editor;
+
+        private static volatile UIFactory instance;
+        private static object syncRoot = new object();
+        private static bool _applicationIsQuitting = false;
+        private static GameObject singletonObj = null;
+        public static UIFactory Instance
+        {
+            get
+            {
+                if (_applicationIsQuitting)
+                {
+                    return null;
+                }
+                if (instance == null)
+                {
+
+                    lock (syncRoot)
+                    {
+                        if (instance == null)
+                        {
+                            UIFactory[] instance1 = FindObjectsOfType<UIFactory>();
+                            if (instance1 != null)
+                            {
+                                for (var i = 0; i < instance1.Length; i++)
+                                {
+                                    Destroy(instance1[i].gameObject);
+                                }
+                            }
+                        }
+                    }
+
+                    GameObject go = new GameObject(typeof(UIFactory).FullName);
+                    singletonObj = go;
+                    instance = go.AddComponent<UIFactory>();
+                    instance.OnInit();
+                    DontDestroyOnLoad(go);
+                    _applicationIsQuitting = false;
+                }
+                return instance;
+            }
+
+        }
+
+        private void Awake()
+        {
+
+            UIFactory t = gameObject.GetComponent<UIFactory>();
+            if (singletonObj == null)
+            {
+                singletonObj = gameObject;
+                DontDestroyOnLoad(gameObject);
+                singletonObj.name = typeof(UIFactory).FullName;
+                instance = t;
+                OnInit();
+                _applicationIsQuitting = false;
+            }
+            else if (singletonObj != gameObject)
+            {
+                MonoBehaviour[] monos = gameObject.GetComponents<MonoBehaviour>();
+                if (monos.Length > 1)
+                {
+                    Destroy(t);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
+
         public static bool configAssstBundle = false;
         public static string configUrl = "UIPrefabConfig";
         public static string configName = "UIPrefabConfig";
@@ -17,12 +91,38 @@ namespace JXFrame.View
         public static LoadAction LoadString;
         public static LoadAction LoadPrefab;
 
+
         private static Dictionary<string, UIPrefabConfigNode> m_PrefabsDict;
         private static Dictionary<string, string> AndroidStreamingAssetsPathText;
         private static Dictionary<string, GameObject> AndroidStreamingAssetsPathPrefab;
-        public override void OnInit() { OnLoad(); }
+        private static Dictionary<string, System.Type> _uibaseTypes;
+        private static Dictionary<string, System.Type> uibaseTypes
+        {
+            get
+            {
+                InitUIBaseType();
+                return _uibaseTypes;
+            }
+        }
+        private static void InitUIBaseType()
+        {
+            if (_uibaseTypes == null)
+            {
+                _uibaseTypes = new Dictionary<string, System.Type>();
+                var types = AppDomain.CurrentDomain.GetAssemblies()
+                  .SelectMany(a => a.GetTypes()).ToArray();
+                for (int i = 0; i < types.Length; i++)
+                {
+                    System.Type v = types[i];// System.Type.GetType(autoRegistorList[i]);
+                    if (v.IsSubclassOf(typeof(UIBase)))
+                        _uibaseTypes[v.FullName] = v;
+                }
+            }
+        }
+        public void OnInit() { OnLoad(); }
         public static void OnLoad()
         {
+            InitUIBaseType();
             if (m_PrefabsDict == null)
                 m_PrefabsDict = new Dictionary<string, UIPrefabConfigNode>();
             if (AndroidStreamingAssetsPathText == null)
@@ -40,9 +140,8 @@ namespace JXFrame.View
                 for (int i = 0; i < info.UIPrefabInfo.Count; i++)
                 {
                     m_PrefabsDict[info.UIPrefabInfo[i].UIFormName] = info.UIPrefabInfo[i];
-#if UNITY_ANDROID && !UNITY_EDITOR
-                   LoadAndroidSteamingAsset(info.UIPrefabInfo[i]);
-#endif
+                    if (UNITY_Android && !UNITY_Editor)
+                        LoadAndroidSteamingAsset(info.UIPrefabInfo[i]);
                 }
             };
 
@@ -61,33 +160,36 @@ namespace JXFrame.View
             {
                 if (configDirType == "streamingAssetsPath")
                 {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                   //android平台的streamingAssetsPath路径
-                    if (configAssstBundle)
+                    if (UNITY_Android && !UNITY_Editor)
                     {
-                        Instance.StartCoroutine(WWWLoadAssetBundle(GetPath(configDirType, configUrl), (bundle) => 
+                        //android平台的streamingAssetsPath路径
+                        if (configAssstBundle)
                         {
-                            TextAsset text = LoadAssetBundleObj<TextAsset>(bundle, configName);
-                             v1(text == null ? null : text.text);
-                        }));
+                            Instance.StartCoroutine(WWWLoadAssetBundle(GetPath(configDirType, configUrl), (bundle) =>
+                            {
+                                TextAsset text = LoadAssetBundleObj<TextAsset>(bundle, configName);
+                                v1(text == null ? null : text.text);
+                            }));
+                        }
+                        else
+                        {
+                            Instance.StartCoroutine(WWWLoadFileStr(GetPath(configDirType, configUrl), (text) =>
+                            {
+                                v1(text);
+                            }));
+                        }
                     }
                     else
                     {
-                        Instance.StartCoroutine(WWWLoadFileStr(GetPath(configDirType, configUrl), (text) => 
+                        //非android平台的streamingAssetsPath路径
+                        if (configAssstBundle)
                         {
-                            v1(text);
-                        }));
+                            TextAsset text = LoadAssetBundleObj<TextAsset>(GetPath(configDirType, configUrl), configName);
+                            v1(text == null ? null : text.text);
+                        }
+                        else
+                            v1(IOLoadFileStr(GetPath(configDirType, configUrl)));
                     }
-#else
-                    //非android平台的streamingAssetsPath路径
-                    if (configAssstBundle)
-                    {
-                        TextAsset text = LoadAssetBundleObj<TextAsset>(GetPath(configDirType, configUrl), configName);
-                        v1(text == null ? null : text.text);
-                    }
-                    else
-                        v1(IOLoadFileStr(GetPath(configDirType, configUrl)));
-#endif
                 }
                 else
                 {
@@ -152,13 +254,12 @@ namespace JXFrame.View
             if (!m_PrefabsDict.ContainsKey(node.UIFormName))
             {
                 m_PrefabsDict[node.UIFormName] = node;
-#if UNITY_ANDROID && !UNITY_EDITOR
-                LoadAndroidSteamingAsset(node);
-#endif
+                if (UNITY_Android && !UNITY_Editor)
+                    LoadAndroidSteamingAsset(node);
             }
         }
 
-        public override void OnDispose()
+        public void OnDispose()
         {
             m_PrefabsDict = null;
             AndroidStreamingAssetsPathText = null;
@@ -213,11 +314,11 @@ namespace JXFrame.View
                     prefab = Resources.Load<GameObject>(uiPrefabInfoNode.UIFormPrefabUrl);
                 else if (uiPrefabInfoNode.UIFormPrefabDirType == "streamingAssetsPath")
                 {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                AndroidStreamingAssetsPathPrefab.TryGetValue(uiPrefabInfoNode.UIFormName,out prefab);
-#else
-                    prefab = LoadAssetBundleObj<GameObject>(GetPath(uiPrefabInfoNode.UIFormPrefabDirType, uiPrefabInfoNode.UIFormPrefabUrl), uiPrefabInfoNode.UIFormPrefabName);
-#endif
+                    if (UNITY_Android && !UNITY_Editor)
+                        AndroidStreamingAssetsPathPrefab.TryGetValue(uiPrefabInfoNode.UIFormName, out prefab);
+                    else
+                        prefab = LoadAssetBundleObj<GameObject>(GetPath(uiPrefabInfoNode.UIFormPrefabDirType, uiPrefabInfoNode.UIFormPrefabUrl), uiPrefabInfoNode.UIFormPrefabName);
+
                 }
             }
             if (prefab == null)
@@ -234,27 +335,42 @@ namespace JXFrame.View
             if (uibase == null)
             {
                 System.Type monoType = null;
-#if HOTFIX_ENABLE
                 if (!uiPrefabInfoNode.UIFormLuaScript)
-                    monoType = System.Type.GetType(uiPrefabInfoNode.UIFormClassName);
+                {
+                    uibaseTypes.TryGetValue(uiPrefabInfoNode.UIFormClassName, out monoType);
+                    //monoType = System.Type.GetType(uiPrefabInfoNode.UIFormClassName);
+                }
                 else
-                    monoType = System.Type.GetType("JXFrame.View.LuaUIBehavior");
-#else
-                monoType = System.Type.GetType(uiPrefabInfoNode.UIFormClassName);
-#endif
+                {
+                    uibaseTypes.TryGetValue("JXFrame.View.LuaUIBehavior", out monoType);
+                    //monoType = System.Type.GetType("JXFrame.View.LuaUIBehavior");
+                }
                 if (monoType == null)
                 {
                     Debug.LogError("monoType is null!:" + uiPrefabInfoNode.UIFormLuaScript);
                     return null;
                 }
                 uibase = go.AddComponent(monoType);
-#if HOTFIX_ENABLE
-                if (uibase is LuaUIBehavior)
+                if (uibase.GetType().Name == "LuaUIBehavior")
                 {
-                    LuaUIBehavior luaui = uibase as LuaUIBehavior;
-                    luaui.LoadLuaString(uiPrefabInfoNode.UIFormLuaScriptAssetBudle, uiPrefabInfoNode.UIFormLuaScripDirType, uiPrefabInfoNode.UIFormClassName, uiPrefabInfoNode.UIFormLuaScriptUrl);
+                    System.Reflection.MethodInfo mi = uibase.GetType().GetMethod("LoadLuaString");
+                    if (mi != null)
+                    {
+                        mi.Invoke(uibase, new System.Object[]
+                        {
+                        uiPrefabInfoNode.UIFormLuaScriptAssetBudle,
+                        uiPrefabInfoNode.UIFormLuaScripDirType,
+                        uiPrefabInfoNode.UIFormClassName,
+                        uiPrefabInfoNode.UIFormLuaScriptUrl
+                        });
+                    }
+                    else
+                    {
+                        Debug.LogError(uibase.GetType().Name +":LoadLuaString(bool isAssetBundle, string dirType, string scriptName, string scriptPath) is null");
+                    }
+                    //LuaUIBehavior luaui = uibase as LuaUIBehavior;
+                    //luaui.LoadLuaString(uiPrefabInfoNode.UIFormLuaScriptAssetBudle, uiPrefabInfoNode.UIFormLuaScripDirType, uiPrefabInfoNode.UIFormClassName, uiPrefabInfoNode.UIFormLuaScriptUrl);
                 }
-#endif
             }
             return uibase.gameObject;
         }
@@ -264,7 +380,7 @@ namespace JXFrame.View
             return new InternalUIManager();
         }
 
-        private static T LoadAssetBundleObj<T>(AssetBundle bundle, string resName) where T : Object
+        private static T LoadAssetBundleObj<T>(AssetBundle bundle, string resName) where T : UnityEngine.Object
         {
             if (bundle != null)
             {
@@ -273,7 +389,7 @@ namespace JXFrame.View
             return null;
         }
 
-        public static T LoadAssetBundleObj<T>(string bundlePath, string resName) where T : Object
+        public static T LoadAssetBundleObj<T>(string bundlePath, string resName) where T : UnityEngine.Object
         {
             AssetBundle bundle = AssetBundle.LoadFromFile(bundlePath);
             return LoadAssetBundleObj<T>(bundle, resName);
@@ -323,7 +439,7 @@ namespace JXFrame.View
         public static IEnumerator WWWLoadFileStr(string path, System.Action<string> callback)
         {
             WWW www = new WWW(path);
-            string id = Time.time.ToString() + Random.Range(1, 100).ToString();
+            string id = Time.time.ToString() + UnityEngine.Random.Range(1, 100).ToString();
             yield return www;
             if (www.isDone && !string.IsNullOrEmpty(www.error))
             {
@@ -344,7 +460,7 @@ namespace JXFrame.View
         public static IEnumerator WWWLoadAssetBundle(string path, System.Action<AssetBundle> callback)
         {
             WWW www = new WWW(path);
-            string id = Time.time.ToString() + Random.Range(1, 100).ToString();
+            string id = Time.time.ToString() + UnityEngine.Random.Range(1, 100).ToString();
             yield return www;
             if (www.isDone && !string.IsNullOrEmpty(www.error))
             {

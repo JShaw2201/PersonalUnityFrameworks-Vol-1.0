@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeNode", "TreeNode\TreeNode.csproj", "{C528E8CE-EA18-49CF-AFB2-F54C1026972D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanvasMesh", "CanvasMesh\CanvasMesh.csproj", "{71C52608-7BDC-40F9-B57D-7EFA8D56EE02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResLibary.Controller", "ResLibary.Controller\ResLibary.Controller.csproj", "{E073C0A1-F23F-4163-8150-5371AFDDD297}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B90BECE5-A4DA-4869-8A64-F9365000BE36} = {B90BECE5-A4DA-4869-8A64-F9365000BE36}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResLibary.Model", "ResLibary.Model\ResLibary.Model.csproj", "{B90BECE5-A4DA-4869-8A64-F9365000BE36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEntity", "GameEntity\GameEntity.csproj", "{7511A35B-6371-4D1C-93C1-1680E26DB071}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JXFrame.View", "JXFrame.View\JXFrame.View.csproj", "{B9F7FAE9-304D-4F65-ABA4-B56F18C1D5E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C528E8CE-EA18-49CF-AFB2-F54C1026972D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C528E8CE-EA18-49CF-AFB2-F54C1026972D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C528E8CE-EA18-49CF-AFB2-F54C1026972D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C528E8CE-EA18-49CF-AFB2-F54C1026972D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71C52608-7BDC-40F9-B57D-7EFA8D56EE02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71C52608-7BDC-40F9-B57D-7EFA8D56EE02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71C52608-7BDC-40F9-B57D-7EFA8D56EE02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71C52608-7BDC-40F9-B57D-7EFA8D56EE02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E073C0A1-F23F-4163-8150-5371AFDDD297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E073C0A1-F23F-4163-8150-5371AFDDD297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E073C0A1-F23F-4163-8150-5371AFDDD297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E073C0A1-F23F-4163-8150-5371AFDDD297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B90BECE5-A4DA-4869-8A64-F9365000BE36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B90BECE5-A4DA-4869-8A64-F9365000BE36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B90BECE5-A4DA-4869-8A64-F9365000BE36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B90BECE5-A4DA-4869-8A64-F9365000BE36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7511A35B-6371-4D1C-93C1-1680E26DB071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7511A35B-6371-4D1C-93C1-1680E26DB071}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7511A35B-6371-4D1C-93C1-1680E26DB071}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7511A35B-6371-4D1C-93C1-1680E26DB071}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9F7FAE9-304D-4F65-ABA4-B56F18C1D5E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F7FAE9-304D-4F65-ABA4-B56F18C1D5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F7FAE9-304D-4F65-ABA4-B56F18C1D5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F7FAE9-304D-4F65-ABA4-B56F18C1D5E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

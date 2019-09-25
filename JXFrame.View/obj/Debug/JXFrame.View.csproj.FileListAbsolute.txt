@@ -1,0 +1,14 @@
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\JXFrame.View\bin\Debug\JXFrame.View.dll
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\JXFrame.View\bin\Debug\JXFrame.View.pdb
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\JXFrame.View\bin\Debug\UnityEngine.dll
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\JXFrame.View\bin\Debug\UnityEngine.xml
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\JXFrame.View\obj\Debug\JXFrame.View.dll
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\JXFrame.View\obj\Debug\JXFrame.View.pdb
+F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\JXFrame.View\obj\Debug\JXFrame.View.csprojResolveAssemblyReference.cache
+F:\_tjx\svn\code\PersonalUnityFrameworks-Vol-1.0\PersonalUnityFrameworks-Vol-1.0\JXFrame.View\obj\Debug\JXFrame.View.csprojResolveAssemblyReference.cache
+F:\_tjx\svn\code\PersonalUnityFrameworks-Vol-1.0\PersonalUnityFrameworks-Vol-1.0\JXFrame.View\obj\Debug\JXFrame.View.dll
+F:\_tjx\svn\code\PersonalUnityFrameworks-Vol-1.0\PersonalUnityFrameworks-Vol-1.0\JXFrame.View\obj\Debug\JXFrame.View.pdb
+F:\_tjx\svn\code\PersonalUnityFrameworks-Vol-1.0\PersonalUnityFrameworks-Vol-1.0\JXFrame.View\bin\Debug\JXFrame.View.dll
+F:\_tjx\svn\code\PersonalUnityFrameworks-Vol-1.0\PersonalUnityFrameworks-Vol-1.0\JXFrame.View\bin\Debug\JXFrame.View.pdb
+F:\_tjx\svn\code\PersonalUnityFrameworks-Vol-1.0\PersonalUnityFrameworks-Vol-1.0\JXFrame.View\bin\Debug\UnityEngine.dll
+F:\_tjx\svn\code\PersonalUnityFrameworks-Vol-1.0\PersonalUnityFrameworks-Vol-1.0\JXFrame.View\bin\Debug\UnityEngine.xml

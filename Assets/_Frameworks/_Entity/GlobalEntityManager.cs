@@ -5,9 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace JXFrame.Entity
 {
-#if HOTFIX_ENABLE
-    [XLua.LuaCallCSharp]
-#endif
+
     public class GlobalEntityManager : BaseEntityManager
     {
         public static GlobalEntityManager Instance
@@ -43,7 +41,7 @@ namespace JXFrame.Entity
         private static object syncRoot = new object();
         private static GameObject singletonObj = null;
 
-        protected override string configUrl { get {return Application.streamingAssetsPath + "/EntityConfig/GlobalEntityConfig.json"; } }
+        protected override string configUrl { get {return Application.streamingAssetsPath + "/NightYeAI_Client/GlobalEntityConfig.json"; } }
 
         protected override void Awake()
         {

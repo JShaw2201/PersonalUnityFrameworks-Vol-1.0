@@ -5,13 +5,11 @@ using UnityEngine;
 
 namespace JXFrame.View
 {
-#if HOTFIX_ENABLE
     [XLua.LuaCallCSharp]
-#endif
     public class LuaUIBehavior : UIBase
     {
 
-#if HOTFIX_ENABLE
+
         [XLua.CSharpCallLua]
         public delegate void OnUpdateAction(string str, Array arr);
         [XLua.CSharpCallLua]
@@ -190,27 +188,8 @@ namespace JXFrame.View
 
         }
 
-#else
-        protected override string uiFormName()
-        {
-            return null;
-        }
 
-        protected override string canvasName()
-        {
-            return base.canvasName();
-        }
-
-        protected override void OnInit()
-        {
-
-        }
-
-        protected override void OnExcute(string InfoState, params object[] data)
-        {
-
-        }
-#endif
+       
 
     }
 }

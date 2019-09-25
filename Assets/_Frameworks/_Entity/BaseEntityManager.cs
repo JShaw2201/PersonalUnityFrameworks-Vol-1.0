@@ -8,9 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace JXFrame.Entity
 {
-#if HOTFIX_ENABLE
-    [XLua.LuaCallCSharp]
-#endif
+
     public class BaseEntityManager : MonoBehaviour
     {
         protected virtual string configUrl { get { return Application.streamingAssetsPath + "/EntityConfig/SceneEntityConfig/"; } }
@@ -54,17 +52,19 @@ namespace JXFrame.Entity
         {
             
             autoRegistorDict = new Dictionary<string, IEntityBehavior>();
-            Scene scene = SceneManager.GetActiveScene();
-            if (scene == null)
-                return;
-
            
             LitJson.JsonData jd = null;
             if (autoRegistorText == null)
             {
-                string str = LoadFileStr(string.Format("{0}/{1}.json", configUrl, scene));
+                string str = LoadFileStr(configUrl);
                 if (!string.IsNullOrEmpty(str))
                     jd = LitJson.JsonMapper.ToObject(str);
+                else
+                {
+                    TextAsset text = Resources.Load<TextAsset>(configUrl);
+                    if(text != null)
+                        jd = LitJson.JsonMapper.ToObject(text.text);
+                }
             }
             else
                 jd = LitJson.JsonMapper.ToObject(autoRegistorText.text);
