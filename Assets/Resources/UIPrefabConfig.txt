@@ -1,0 +1,39 @@
+{
+"UIPrefabInfo":
+[
+    {
+        "UIFormName": "MainUi",
+        "UIFormClassName": "MainUi",
+        "UIFormPrefabUrl": "Prefabs/UIPrefabs/menuBg"
+    },
+	{
+        "UIFormName": "KeyboardMgr",
+        "UIFormClassName": "KeyboardMgr",
+        "UIFormPrefabUrl": "Prefabs/UIPrefabs/KeyBoardPanel"
+    },
+	{
+        "UIFormName": "LoadPanel",
+        "UIFormClassName": "LoadPanel",
+        "UIFormPrefabUrl": "Prefabs/UIPrefabs/LoadPanel"
+    },
+	{
+        "UIFormName": "SavePanel",
+        "UIFormClassName": "SavePanel",
+        "UIFormPrefabUrl": "Prefabs/UIPrefabs/SavePanel"
+    },
+	{
+        "UIFormName": "SteamUIForm",
+        "UIFormClassName": "SteamSceneUIMgr",
+        "UIFormPrefabUrl": "Prefabs/UIPrefabs/SteamUIForm"
+    },
+	{
+        "UIFormName": "SceneMgrUIFormTest",
+        "UIFormClassName": "SceneMgrUIFormTest",
+        "UIFormPrefabUrl": "Prefabs/UIPrefabs/ModeUIMgr"
+    },
+	{
+        "UIFormName": "SceneMgrUIFormTest",
+        "UIFormClassName": "SceneMgrUIFormTest",
+        "UIFormPrefabUrl": "Prefabs/UIPrefabs/CubeMTrans"
+    }
+]}
