@@ -5,18 +5,11 @@ using UnityEngine;
 
 namespace JXFrame.View
 {
+#if HOTFIX_ENABLE
     [XLua.LuaCallCSharp]
+#endif
     public class LuaUIBehavior : UIBase
     {
-
-
-        [XLua.CSharpCallLua]
-        public delegate void OnUpdateAction(string str, Array arr);
-        [XLua.CSharpCallLua]
-        public delegate UIType luaUiFormType();
-
-        private  XLua.LuaTable scriptEnv;
-        protected luaUiFormType _luaUiFormType;
         protected System.Action luaOnInit;
         protected OnUpdateAction luaOnExcute;
         protected System.Action luaOnDisplay;
@@ -24,15 +17,38 @@ namespace JXFrame.View
         protected System.Action luaOnReDisplay;
         protected System.Action luaOnFreese;
         protected System.Action luaOnRelease;
+#if HOTFIX_ENABLE
+      
+        [XLua.CSharpCallLua]
+        public delegate void OnUpdateAction(string str, Array arr);
+        
 
+        private  XLua.LuaTable scriptEnv;
+      
+        [XLua.CSharpCallLua]
+         public delegate UIType luaUiFormType();
+#else
+        public delegate UIType luaUiFormType();
+        public delegate void OnUpdateAction(string str, Array arr);
+#endif
+
+        protected luaUiFormType _luaUiFormType;
         protected override string uiFormName()
         {
+#if HOTFIX_ENABLE
             return scriptEnv.Get<string>("uiFormName");
+#else
+            return null;
+#endif
         }
 
         protected override string canvasName()
         {
+#if HOTFIX_ENABLE
             return scriptEnv.Get<string>("canvasName");
+#else
+            return null;
+#endif
         }
 
         protected override UIType uiFormType()
@@ -44,7 +60,7 @@ namespace JXFrame.View
 
         public void LoadLuaString(bool isAssetBundle, string dirType, string scriptName, string scriptPath)
         {
-
+#if HOTFIX_ENABLE
             scriptEnv = UIManager.luaenv.NewTable();
             XLua.LuaTable meta = UIManager.luaenv.NewTable();
             meta.Set("__index", UIManager.luaenv.Global);
@@ -86,8 +102,9 @@ namespace JXFrame.View
             scriptEnv.Get("OnReDisplay", out luaOnReDisplay);
             scriptEnv.Get("OnFreese", out luaOnFreese);
             scriptEnv.Get("OnRelease", out luaOnRelease);
-
+#endif
         }
+#if HOTFIX_ENABLE
         private void LoadLuaScript(bool isAssetBundle, string dirType, string scriptName, string scriptPath)
         {
             if (UIFactory.LoadString != null)
@@ -143,7 +160,7 @@ namespace JXFrame.View
             }
         }
 
-
+#endif
 
         protected override void OnInit()
         {
@@ -184,12 +201,11 @@ namespace JXFrame.View
         {
             if (luaOnRelease != null)
                 luaOnRelease();
+#if HOTFIX_ENABLE
             scriptEnv.Dispose();
+#endif
 
         }
-
-
-       
 
     }
 }
