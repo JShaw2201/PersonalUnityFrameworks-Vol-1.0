@@ -89,18 +89,64 @@ namespace JX.Tool
         private static int _maxMainThreads = 8;
         private static int _maxAsyncThreads = 10;
 
-        public static int asyncThreadTimeOut = 100;
-        public static int mainThreadTimeOut = 100;
+        public static int asyncThreadTimeOut = 60;
+        public static int mainThreadTimeOut = 20;
+        public static int asyncTimeOutReCallNumber = 3;
+        public static int mainTimeOutReCallNumber = 3;
 
         private static LoomBehavior<ThreadObject, Action> _asyncThead = new LoomBehavior<ThreadObject, Action>();
         private static LoomBehavior<ActionObject, Action<Action>> _mainThead = new LoomBehavior<ActionObject, Action<Action>>();
 
+        public bool showInfo = false;
+
         private void Update()
         {
-            if (_mainThead.hasAction)
+            if (_mainThead.HasAction)
                 _mainThead.OnUpdate();
-            if (_asyncThead.hasAction)
+            if (_asyncThead.HasAction)
                 _asyncThead.OnUpdate();
+
+        }
+
+        private void OnGUI()
+        {
+            if (showInfo)
+                OnShowInfo();
+        }
+
+        private void OnShowInfo()
+        {
+            Rect _asyncRect = new Rect(100, 100, 300, 50);
+            GUI.Label(_asyncRect, "子线程总数：" + _asyncThead.ThreadCount);
+            if (_asyncThead.CurrentKeys != null)
+            {
+                Rect _rect = _asyncRect;
+                int[] _Keys = _asyncThead.CurrentKeys;
+                for (int i = 0; i < _Keys.Length; i++)
+                {
+                    GUI.Label(new Rect(_rect.x, _rect.y + 50 + 50 * i, _rect.width, _rect.height), "id：" + _Keys[i]);
+                    GUI.Label(new Rect(_rect.x, _rect.y + 100 + 50 * i, _rect.width, _rect.height), "当前线程总节点：" + _asyncThead.GetLinkNodeCount(_Keys[i]));
+                    GUI.Label(new Rect(_rect.x, _rect.y + 150 + 50 * i, _rect.width, _rect.height), "当前线程运行节点：" + _asyncThead.GetLinkNodeRunIndex(_Keys[i]));
+                    GUI.Label(new Rect(_rect.x, _rect.y + 200 + 50 * i, _rect.width, _rect.height), "当前线程运行状态：" + _asyncThead.GetLinkStatus(_Keys[i]));
+                    GUI.Label(new Rect(_rect.x, _rect.y + 250 + 50 * i, _rect.width, _rect.height), "当前线程节点运行状态：" + _asyncThead.GetLinkCurrentNodeStatus(_Keys[i]));
+                }
+            }
+
+            Rect _mainRect = new Rect(500, 100, 300, 50);
+            GUI.Label(_mainRect, "主线程总数：" + _mainThead.ThreadCount);
+            if (_mainThead.CurrentKeys != null)
+            {
+                Rect _rect = _mainRect;
+                int[] _Keys = _mainThead.CurrentKeys;
+                for (int i = 0; i < _Keys.Length; i++)
+                {
+                    GUI.Label(new Rect(_rect.x, _rect.y + 50 + 50 * i, _rect.width, _rect.height), "id：" + _Keys[i]);
+                    GUI.Label(new Rect(_rect.x, _rect.y + 100 + 50 * i, _rect.width, _rect.height), "当前线程总节点：" + _mainThead.GetLinkNodeCount(_Keys[i]));
+                    GUI.Label(new Rect(_rect.x, _rect.y + 150 + 50 * i, _rect.width, _rect.height), "当前线程运行节点：" + _mainThead.GetLinkNodeRunIndex(_Keys[i]));
+                    GUI.Label(new Rect(_rect.x, _rect.y + 200 + 50 * i, _rect.width, _rect.height), "当前线程运行状态：" + _mainThead.GetLinkStatus(_Keys[i]));
+                    GUI.Label(new Rect(_rect.x, _rect.y + 250 + 50 * i, _rect.width, _rect.height), "当前线程节点运行状态：" + _mainThead.GetLinkCurrentNodeStatus(_Keys[i]));
+                }
+            }
 
         }
 
@@ -109,6 +155,7 @@ namespace JX.Tool
             _asyncThead.OnDispose();
             _mainThead.OnDispose();
         }
+
 
         /// <summary>
         /// 添加到默认系列
@@ -188,9 +235,35 @@ namespace JX.Tool
 
         class LoomBehavior<T1, T2> where T1 : LoomThreadObject<T2>, new()
         {
+            public int ThreadCount
+            {
+                get
+                {
+                    return _current.Count;
+                }
+            }
+
             public int maxThread = 8;
-            public bool hasAction = false;
+            public bool HasAction
+            {
+                get
+                {
+                    return _hasAction;
+                }
+            }
+
+            public int[] CurrentKeys
+            {
+                get
+                {
+                    if (_currentKeys != null && ThreadCount > 0)
+                        return _currentKeys.ToArray();
+                    return null;
+                }
+            }
+            private bool _hasAction = false;
             private object lockObj = new object();
+            private List<int> _currentKeys = null;
             private Dictionary<int, LoomLinkList<T1, T2>> _current = new Dictionary<int, LoomLinkList<T1, T2>>();
             private Dictionary<int, LoomLinkList<T1, T2>> _Actions = new Dictionary<int, LoomLinkList<T1, T2>>();
 
@@ -200,24 +273,60 @@ namespace JX.Tool
                 //defaultID = idStr.GetHashCode();
             }
 
+            public int GetLinkNodeCount(int id)
+            {
+                LoomLinkList<T1, T2> link = null;
+                _current.TryGetValue(id, out link);
+                if (link != null)
+                    return link.Count;
+                return 0;
+            }
+
+            public int GetLinkNodeRunIndex(int id)
+            {
+                LoomLinkList<T1, T2> link = null;
+                _current.TryGetValue(id, out link);
+                if (link != null)
+                    return link.RunIndex;
+                return -1;
+            }
+
+            public string GetLinkStatus(int id)
+            {
+                LoomLinkList<T1, T2> link = null;
+                _current.TryGetValue(id, out link);
+                if (link != null)
+                    return link.status;
+                return "NONE";
+            }
+
+            public string GetLinkCurrentNodeStatus(int id)
+            {
+                LoomLinkList<T1, T2> link = null;
+                _current.TryGetValue(id, out link);
+                if (link != null)
+                    return link.currentNodeStatus;
+                return "NONE";
+            }
+
             public void OnUpdate()
             {
                 if (_current.Count == 0 && _Actions.Count == 0)
                 {
-                    hasAction = false;
+                    _hasAction = false;
                     return;
                 }
-                List<int> _currentKeys = new List<int>(_current.Keys);
+                _currentKeys = new List<int>(_current.Keys);
                 for (int i = 0; i < _currentKeys.Count; i++)
                 {
                     LoomLinkList<T1, T2> linkList = _current[_currentKeys[i]];
                     if (linkList.status == "END")
                     {
-                        lock (_current)
+                        lock (lockObj)
                         {
                             _current.Remove(_currentKeys[i]);
                         }
-                        break;
+                        continue;
                     }
                     linkList.OnUpdate();
                 }
@@ -225,9 +334,9 @@ namespace JX.Tool
                 {
                     if (_Actions.Count > 0)
                     {
-                        List<int> _ActionKeys = new List<int>(_Actions.Keys);
-                        lock (_current)
+                        lock (lockObj)
                         {
+                            List<int> _ActionKeys = new List<int>(_Actions.Keys);
                             _current[_ActionKeys[0]] = _Actions[_ActionKeys[0]];
                             _Actions.Remove(_ActionKeys[0]);
                         }
@@ -285,7 +394,7 @@ namespace JX.Tool
                         actions.AppendNode(t1);
                         actions.OnStart();
                     }
-                    hasAction = true;
+                    _hasAction = true;
                 }
             }
 
@@ -295,8 +404,11 @@ namespace JX.Tool
             /// <param name="id"></param>
             public void StopOnThread(int id)
             {
-                _current.Remove(id);
-                _Actions.Remove(id);
+                lock (lockObj)
+                {
+                    _current.Remove(id);
+                    _Actions.Remove(id);
+                }
             }
 
             /// <summary>
@@ -306,26 +418,29 @@ namespace JX.Tool
             /// <param name="callback"></param>
             public void StopOnThread(int id, T2 callback)
             {
-                LoomLinkList<T1, T2> linkList = null;
-                if (_current.ContainsKey(id))
+                lock (lockObj)
                 {
-                    linkList = _current[id];
-                }
-                else if (_Actions.ContainsKey(id))
-                {
-                    linkList = _Actions[id];
-                }
-                if (linkList == null)
-                    return;
-                LoomThreadObject<T2> currentNode = linkList.Head as LoomThreadObject<T2>;
-                while (currentNode != null)
-                {
-                    if ((object)currentNode.callback == (object)callback)
+                    LoomLinkList<T1, T2> linkList = null;
+                    if (_current.ContainsKey(id))
                     {
-                        currentNode.OnStop();
-                        break;
+                        linkList = _current[id];
                     }
-                    currentNode = currentNode.Next as LoomThreadObject<T2>;
+                    else if (_Actions.ContainsKey(id))
+                    {
+                        linkList = _Actions[id];
+                    }
+                    if (linkList == null)
+                        return;
+                    LoomThreadObject<T2> currentNode = linkList.Head as LoomThreadObject<T2>;
+                    while (currentNode != null)
+                    {
+                        if ((object)currentNode.callback == (object)callback)
+                        {
+                            currentNode.OnStop();
+                            break;
+                        }
+                        currentNode = currentNode.Next as LoomThreadObject<T2>;
+                    }
                 }
             }
 
@@ -360,16 +475,24 @@ namespace JX.Tool
                 thread = new Thread((new ParameterizedThreadStart(RunAction)));
                 thread.IsBackground = true;
                 TimeOut = asyncThreadTimeOut;
+                ReCallNum = asyncTimeOutReCallNumber;
             }
             public ThreadObject(Action callback) : base(callback)
             {
                 thread = new Thread((new ParameterizedThreadStart(RunAction)));
                 thread.IsBackground = true;
                 TimeOut = asyncThreadTimeOut;
+                ReCallNum = asyncTimeOutReCallNumber;
             }
 
             protected override void OnInvoke()
             {
+                if (thread.IsAlive)
+                {
+                    thread.Abort();
+                    thread = new Thread((new ParameterizedThreadStart(RunAction)));
+                }
+                thread.IsBackground = true;
                 thread.Start(_callback);
             }
 
@@ -394,10 +517,12 @@ namespace JX.Tool
             public ActionObject()
             {
                 TimeOut = mainThreadTimeOut;
+                ReCallNum = mainTimeOutReCallNumber;
             }
             public ActionObject(Action<Action> callback) : base(callback)
             {
                 TimeOut = mainThreadTimeOut;
+                ReCallNum = mainTimeOutReCallNumber;
             }
 
             protected override void OnInvoke()
@@ -407,8 +532,8 @@ namespace JX.Tool
                     OnStop();
                     return;
                 }
-                _callback(() => {
-
+                _callback(() =>
+                {
                     OnStop();
                     //if (Next != null) ((ActionObject)Next).Invoke();
                 });
@@ -418,9 +543,9 @@ namespace JX.Tool
         class LoomThreadObject<T> : Node<T>
         {
             protected int TimeOut = 10;
-
+            protected int ReCallNum = 3;
+            private int _CallNum = 0;
             private float _Timer;
-
             public string status { get { return _status; } }
             protected string _status = "NOTWORKING";
 
@@ -442,6 +567,7 @@ namespace JX.Tool
                 if (_status == "NOTWORKING")
                 {
                     _Timer = 0;
+                    _CallNum++;
                     _status = "WORKING";
                     OnInvoke();
                 }
@@ -453,7 +579,14 @@ namespace JX.Tool
                 {
                     _Timer += Time.deltaTime;
                     if (_Timer >= TimeOut)
-                        OnStop();
+                        if (_CallNum >= ReCallNum)
+                            OnStop();
+                        else
+                        {
+                            _Timer = 0;
+                            _CallNum++;
+                            OnInvoke();
+                        }
                 }
             }
             public virtual void OnStop()
@@ -469,26 +602,62 @@ namespace JX.Tool
         /// </summary>
         class LoomLinkList<T1, T2> : LinkList<T2> where T1 : LoomThreadObject<T2>
         {
+            public int Count { get { return m_Count; } }
+            public int RunIndex { get { return m_RunIndex; } }
             public string status { get { return _status; } }
+            public string currentNodeStatus
+            {
+                get
+                {
+                    if (currentNode != null)
+                        return currentNode.status;
+                    return "NONE";
+                }
+            }
+            private int m_Count;
+            private int m_RunIndex = -1;
             private string _status = "NOTWORKING";
             private LoomThreadObject<T2> currentNode;
 
+            private object LockObj = new object();
+            public override void Append(T2 t2)
+            {
+                lock (LockObj)
+                {
+                    base.Append(t2);
+                    m_Count++;
+                }
+            }
+            public override void AppendNode(Node<T2> t)
+            {
+                lock (LockObj)
+                {
+                    base.AppendNode(t);
+                    if (t != null)
+                        m_Count++;
+                }
+            }
             public void OnStart()
             {
-                switch (_status)
+                lock (LockObj)
                 {
-                    case "NOTWORKING":
-                        _status = "WORKING";
-                        currentNode = Head as LoomThreadObject<T2>;
-                        break;
-                    case "END":
-                        if (currentNode == null || currentNode.Next == null)
-                        {
-                            return;
-                        }
-                        _status = "WORKING";
-                        currentNode = currentNode.Next as LoomThreadObject<T2>;
-                        break;
+                    switch (_status)
+                    {
+                        case "NOTWORKING":
+                            _status = "WORKING";
+                            currentNode = Head as LoomThreadObject<T2>;
+                            m_RunIndex++;
+                            break;
+                        case "END":
+                            if (currentNode == null || currentNode.Next == null)
+                            {
+                                return;
+                            }
+                            _status = "WORKING";
+                            currentNode = currentNode.Next as LoomThreadObject<T2>;
+                            m_RunIndex++;
+                            break;
+                    }
                 }
             }
 
@@ -498,7 +667,11 @@ namespace JX.Tool
                 {
                     case "NOTWORKING":
                         _status = "WORKING";
-                        currentNode = Head as LoomThreadObject<T2>;
+                        lock (LockObj)
+                        {
+                            currentNode = Head as LoomThreadObject<T2>;
+                            m_RunIndex++;
+                        }
                         break;
                     case "WORKING":
                         if (currentNode == null)
@@ -517,7 +690,11 @@ namespace JX.Tool
                             case "END":
                                 if (currentNode.Next != null)
                                 {
-                                    currentNode = currentNode.Next as LoomThreadObject<T2>;
+                                    lock (LockObj)
+                                    {
+                                        currentNode = currentNode.Next as LoomThreadObject<T2>;
+                                        m_RunIndex++;
+                                    }
                                 }
                                 else
                                 {
@@ -539,78 +716,80 @@ namespace JX.Tool
                     loomObj.OnStop();
                 }
                 currentNode = null;
-            }
-        }
-        class LinkList<T>
-        {
-            public Node<T> Head { set; get; } //单链表头
-
-            //构造
-            public LinkList()
-            {
-                Head = null;
-            }
-
-            /// <summary>
-            /// 增加新元素到单链表末尾
-            /// </summary>
-            public virtual void Append(T item)
-            {
-                Node<T> foot = new Node<T>(item);
-                Node<T> A = null;
-                if (Head == null)
-                {
-                    Head = foot;
-                    return;
-                }
-                A = Head;
-                while (A.Next != null)
-                {
-
-                    A = A.Next;
-                }
-                A.Next = foot;
-                A.Next.Parent = A;
-            }
-
-            public virtual void AppendNode(Node<T> item)
-            {
-                Node<T> foot = item;
-                Node<T> A = null;
-                if (Head == null)
-                {
-                    Head = foot;
-                    return;
-                }
-                A = Head;
-                while (A.Next != null)
-                {
-
-                    A = A.Next;
-                }
-                A.Next = foot;
-                A.Next.Parent = A;
-            }
-        }
-        class Node<T>
-        {
-            public T Data { set; get; }          //数据域,当前结点数据
-            public Node<T> Next { set; get; }    //位置域,下一个结点地址
-            public Node<T> Parent { set; get; }
-
-            public Node(T item)
-            {
-                this.Data = item;
-                this.Next = null;
-                this.Parent = null;
-            }
-
-            public Node()
-            {
-                this.Data = default(T);
-                this.Next = null;
-                this.Parent = null;
+                m_RunIndex = -1;
             }
         }
     }
+    class LinkList<T>
+    {
+        public Node<T> Head { set; get; } //单链表头
+
+        //构造
+        public LinkList()
+        {
+            Head = null;
+        }
+
+        /// <summary>
+        /// 增加新元素到单链表末尾
+        /// </summary>
+        public virtual void Append(T item)
+        {
+            Node<T> foot = new Node<T>(item);
+            Node<T> A = null;
+            if (Head == null)
+            {
+                Head = foot;
+                return;
+            }
+            A = Head;
+            while (A.Next != null)
+            {
+
+                A = A.Next;
+            }
+            A.Next = foot;
+            A.Next.Parent = A;
+        }
+
+        public virtual void AppendNode(Node<T> item)
+        {
+            Node<T> foot = item;
+            Node<T> A = null;
+            if (Head == null)
+            {
+                Head = foot;
+                return;
+            }
+            A = Head;
+            while (A.Next != null)
+            {
+
+                A = A.Next;
+            }
+            A.Next = foot;
+            A.Next.Parent = A;
+        }
+    }
+    class Node<T>
+    {
+        public T Data { set; get; }          //数据域,当前结点数据
+        public Node<T> Next { set; get; }    //位置域,下一个结点地址
+        public Node<T> Parent { set; get; }
+
+        public Node(T item)
+        {
+            this.Data = item;
+            this.Next = null;
+            this.Parent = null;
+        }
+
+        public Node()
+        {
+            this.Data = default(T);
+            this.Next = null;
+            this.Parent = null;
+        }
+    }
 }
+
