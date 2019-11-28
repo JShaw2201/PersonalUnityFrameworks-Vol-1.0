@@ -99,7 +99,7 @@ namespace ResLibary
             resourceDict = new Dictionary<string, Dictionary<string, AssetBundleStateObj>>();
         }
 
-        public void UpdateAssetBundle(string bundleUrl, AssetExistStatusEnum bundelExistStatus = AssetExistStatusEnum.Quote)
+        public void UpdateAssetBundle(string bundleUrl, AssetExistStatusEnum bundelExistStatus = AssetExistStatusEnum.Scene)
         {
             ResLibaryTool.UTStartCoroutine(AddAssetBundle(bundleUrl, bundelExistStatus));
         }
@@ -239,6 +239,18 @@ namespace ResLibary
         }
 
         void ILibaryHandle.InsertLibrary(object data) { }
+
+        void ILibaryHandle.DeleteLiibrary(string _type,string name)
+        {
+            if (resourceDict.ContainsKey(_type))
+            {
+                Dictionary<string, AssetBundleStateObj> objectDict = resourceDict[_type];
+                if (objectDict.ContainsKey(name))
+                {
+                    objectDict.Remove(name);
+                }
+            }
+        }
 
         void ILibaryHandle.releaseObj(LibaryTypeEnum libaryTypeEnum, string objName)
         {

@@ -153,7 +153,7 @@ public class StreamingAssetLibarySettingWindows : EditorWindow
                 resourceSettingStateObj.m_Name = fileName;
                 resourceSettingStateObj.m_Path = filePath;
                 resourceSettingStateObj.m_Type = typeName;
-                resourceSettingStateObj.m_ExistStatus = AssetExistStatusEnum.Quote;
+                resourceSettingStateObj.m_ExistStatus = AssetExistStatusEnum.Scene;
                 resourseSetting.AddResToLibary(resourceSettingStateObj);
             }
 

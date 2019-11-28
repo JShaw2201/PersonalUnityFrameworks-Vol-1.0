@@ -30,6 +30,19 @@ namespace ResLibary
             ResLibaryTool.UTStartCoroutine(InitLibaryAssetSetting(assetSetting.audios));
             ResLibaryTool.UTStartCoroutine(InitLibaryAssetSetting(assetSetting.videos));
         }
+
+        void ILibaryHandle.DeleteLiibrary(string _type, string name)
+        {
+            if (resourceDict.ContainsKey(_type))
+            {
+                Dictionary<string, ResourceStateObj> objectDict = resourceDict[_type];
+                if (objectDict.ContainsKey(name))
+                {
+                    objectDict.Remove(name);
+                }
+            }
+        }
+
         private IEnumerator InitLibaryAssetSetting(List<ResourceSettingStateObj> list, int iterationsPerFrame = 200)
         {
             int iterations = 0;
@@ -127,7 +140,7 @@ namespace ResLibary
                     UnityEngine.Object t = stateObj.m_Asset;
                     if (stateObj.m_ExistStatus == AssetExistStatusEnum.Once)
                         stateObj.m_Asset = null;
-                    if (t != null)
+                    if (t != null && stateObj.m_ExistStatus == AssetExistStatusEnum.Quote)
                         stateObj.m_Quote++;
                     return t;
                 }

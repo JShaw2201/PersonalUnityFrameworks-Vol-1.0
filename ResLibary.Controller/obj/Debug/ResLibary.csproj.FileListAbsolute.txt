@@ -1,6 +1,0 @@
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary\bin\Debug\ResLibary.dll
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary\bin\Debug\ResLibary.pdb
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary\bin\Debug\UnityEngine.dll
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary\bin\Debug\UnityEngine.xml
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary\obj\Debug\ResLibary.dll
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\ResLibary\obj\Debug\ResLibary.pdb

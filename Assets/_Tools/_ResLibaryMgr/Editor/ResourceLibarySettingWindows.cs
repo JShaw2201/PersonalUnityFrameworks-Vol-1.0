@@ -180,7 +180,7 @@ public class ResourceLibarySettingWindows : EditorWindow
                         settingStateObj.m_Name = obj.name;
                         settingStateObj.m_Path = filePath;
                         settingStateObj.m_Type = obj.GetType().Name;
-                        settingStateObj.m_ExistStatus = AssetExistStatusEnum.Quote;
+                        settingStateObj.m_ExistStatus = AssetExistStatusEnum.Scene;
                         resourseSetting.AddResToLibary(settingStateObj);
                     }
                 }
@@ -197,7 +197,7 @@ public class ResourceLibarySettingWindows : EditorWindow
                     settingStateObj.m_Name = obj.name;
                     settingStateObj.m_Path = filePath;
                     settingStateObj.m_Type = obj.GetType().Name;
-                    settingStateObj.m_ExistStatus = AssetExistStatusEnum.Quote;
+                    settingStateObj.m_ExistStatus = AssetExistStatusEnum.Scene;
                     resourseSetting.AddResToLibary(settingStateObj);
                 }
             }

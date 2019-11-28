@@ -57,17 +57,17 @@ using UnityEngine;
         /// <summary>
         /// streammingasset path
         /// </summary>
-        LibaryExistStatus_NotUnityEngineObject_NotRead_StreamAssetPath,
+        LibaryExistStatus_NotUnityEngineObject_StreamAssetPath,
 
         /// <summary>
         /// file path
         /// </summary>
-        LibaryExistStatus_NotUnityEngineObject_NotRead_FilePath,
+        LibaryExistStatus_NotUnityEngineObject_FilePath,
 
         /// <summary>
         /// textasset  is not unityengine.object
         /// </summary>
-        LibaryExistStatus_NotUnityEngineObject_CanRead_TextAsset
+        LibaryExistStatus_NotUnityEngineObject_TextAsset
     }
 
     public enum LibaryStatusEnum

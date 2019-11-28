@@ -109,6 +109,23 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
         resourceLibary.InsertLibrary(data);
     }
 
+    public void DeleteLiibrary(string _type, string name)
+    {
+        if (libaryDict.ContainsKey(name))
+        {
+            Dictionary<string, LibaryStateObj> lDict = libaryDict[name];
+            lDict.Remove(_type);
+        }
+      
+
+        streamming.DeleteLiibrary(_type, name);
+        fileLibary.DeleteLiibrary(_type, name);
+        bundleLibary.DeleteLiibrary(_type, name);
+        assetsLibary.DeleteLiibrary(_type, name);
+        resourceLibary.DeleteLiibrary(_type, name);
+    }
+
+
     public void UpdateLibary(LibaryStateObj libaryStateObj)
     {
         if (!libaryDict.ContainsKey(libaryStateObj.m_Name))
@@ -116,6 +133,28 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
             libaryDict[libaryStateObj.m_Name] = new Dictionary<string, LibaryStateObj>();
         }
         Dictionary<string, LibaryStateObj> lDict = libaryDict[libaryStateObj.m_Name];
+        if (lDict.ContainsKey(libaryStateObj.m_Name))
+        {
+            LibaryStateObj lobj = lDict[libaryStateObj.m_Type];
+            switch (lobj.m_Status)
+            {
+                case LibaryStatusEnum.DIR_ASSETS:
+                    assetsLibary.DeleteLiibrary(libaryStateObj.m_Type,libaryStateObj.m_Name);
+                    break;
+                case LibaryStatusEnum.DIR_ASSETBUNDER:
+                    bundleLibary.DeleteLiibrary(libaryStateObj.m_Type, libaryStateObj.m_Name);
+                    break;
+                case LibaryStatusEnum.DIR_STREAMINGASSET:
+                    streamming.DeleteLiibrary(libaryStateObj.m_Type, libaryStateObj.m_Name);
+                    break;
+                case LibaryStatusEnum.DIR_FILE:
+                    fileLibary.DeleteLiibrary(libaryStateObj.m_Type, libaryStateObj.m_Name);
+                    break;
+                case LibaryStatusEnum.DIR_RESOURCE:
+                    resourceLibary.DeleteLiibrary(libaryStateObj.m_Type, libaryStateObj.m_Name);
+                    break;
+            }
+        }
         lDict[libaryStateObj.m_Type] = libaryStateObj;
 
         libaryDict[libaryStateObj.m_Name] = lDict;
@@ -266,6 +305,7 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
             }
         }
     }
+
     public void releaseObj(LibaryTypeEnum libaryTypeEnum, string objName)
     {
         releaseObj(ResLibaryTool.ExistType[libaryTypeEnum], objName);

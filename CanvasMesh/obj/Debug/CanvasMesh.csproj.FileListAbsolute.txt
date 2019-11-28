@@ -1,6 +1,0 @@
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\CanvasMesh\bin\Debug\Canvas3d.dll
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\CanvasMesh\bin\Debug\Canvas3d.pdb
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\CanvasMesh\bin\Debug\UnityEngine.dll
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\CanvasMesh\bin\Debug\UnityEngine.xml
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\CanvasMesh\obj\Debug\Canvas3d.dll
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\CanvasMesh\obj\Debug\Canvas3d.pdb

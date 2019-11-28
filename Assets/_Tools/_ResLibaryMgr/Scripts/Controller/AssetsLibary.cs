@@ -130,6 +130,18 @@ namespace ResLibary
             ResLibaryTool.UTStartCoroutine(InitLibaryAssetSetting(assetSetting.videos));
         }
 
+        void ILibaryHandle.DeleteLiibrary(string _type, string name)
+        {
+            if (assetDict.ContainsKey(_type))
+            {
+                Dictionary<string, UnityEngine.Object> objectDict = assetDict[_type];
+                if (objectDict.ContainsKey(name))
+                {
+                    objectDict.Remove(name);
+                }
+            }
+        }
+
         string ILibaryHandle.GetTextAsset(string objName)
         {
             TextAsset textAsset = ((ILibaryHandle)this).GetObject<TextAsset>(objName);

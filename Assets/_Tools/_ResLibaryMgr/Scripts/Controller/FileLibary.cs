@@ -88,6 +88,18 @@ namespace ResLibary
 
         void ILibaryHandle.InsertLibrary(object data)
         { }
+
+        void ILibaryHandle.DeleteLiibrary(string _type, string name)
+        {
+            if (resourceDict.ContainsKey(_type))
+            {
+                Dictionary<string, FileStateObj> objectDict = resourceDict[_type];
+                if (objectDict.ContainsKey(name))
+                {
+                    objectDict.Remove(name);
+                }
+            }
+        }
         public void UpdateLibary(string localUrl, AssetExistStatusEnum assetStatus = AssetExistStatusEnum.Quote)
         {
             FileInfo file = new FileInfo(localUrl);
@@ -270,11 +282,11 @@ namespace ResLibary
                     data = ((ILibaryHandle)this).GetTextAsset(objName);
                     break;
                 case LibaryTypeEnum.LibaryType_TextAsset:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_CanRead_TextAsset;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_TextAsset;
                     data = ((ILibaryHandle)this).GetTexture2d(objName);
                     break;
                 case LibaryTypeEnum.LibaryType_AudioClip:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_NotRead_FilePath;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_FilePath;
                     FileStateObj fobjAudio = GetFileStateObj(_type, objName);
                     if (fobjAudio != null)
                     {
@@ -283,7 +295,7 @@ namespace ResLibary
                     break;
                 case LibaryTypeEnum.LibaryType_VideoClip:
                 case LibaryTypeEnum.LibaryType_MovieTexture:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_NotRead_FilePath;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_FilePath;
                     FileStateObj fobjVideo = GetFileStateObj(_type, objName);
                     if (fobjVideo != null)
                     {

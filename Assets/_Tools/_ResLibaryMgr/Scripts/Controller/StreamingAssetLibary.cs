@@ -25,6 +25,18 @@ namespace ResLibary
             ResLibaryTool.UTStartCoroutine(InitLibaryAssetSetting(assetSetting.audios));
             ResLibaryTool.UTStartCoroutine(InitLibaryAssetSetting(assetSetting.videos));
         }
+
+        void ILibaryHandle.DeleteLiibrary(string _type, string name)
+        {
+            if (resourceDict.ContainsKey(_type))
+            {
+                Dictionary<string, FileStateObj> objectDict = resourceDict[_type];
+                if (objectDict.ContainsKey(name))
+                {
+                    objectDict.Remove(name);
+                }
+            }
+        }
         private IEnumerator InitLibaryAssetSetting(List<ResourceSettingStateObj> list, int iterationsPerFrame = 200)
         {
             int iterations = 0;
@@ -66,7 +78,7 @@ namespace ResLibary
                 {
                     string path = Path.Combine(streamingAssetPath, stateObj.m_Path);
                     stateObj.m_Asset = ResLibaryTool.LoadFileStr(path);
-                    if (stateObj.m_Asset != null)
+                    if (stateObj.m_Asset != null && stateObj.m_ExistStatus == AssetExistStatusEnum.Quote)
                         stateObj.m_Quote++;
                     if (stateObj.m_ExistStatus == AssetExistStatusEnum.Once)
                         stateObj.m_Asset = null;
@@ -89,7 +101,8 @@ namespace ResLibary
                     if (t != null)
                     {
                         spr = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
-                        stateObj.m_Quote++;
+                        if(stateObj.m_ExistStatus == AssetExistStatusEnum.Quote)
+                            stateObj.m_Quote++;
                     }
 
                     if (spr != null)
@@ -113,12 +126,12 @@ namespace ResLibary
                 Dictionary<string, FileStateObj> _Dict = resourceDict[_type];
                 FileStateObj stateObj;
                 _Dict.TryGetValue(objName, out stateObj);
-                if (stateObj != null && stateObj.m_Asset == null)
+                if (stateObj != null)
                 {
                     if (stateObj.m_Asset == null)
                         stateObj.m_Asset = ResLibaryTool.readLocalTexture2d(Path.Combine(streamingAssetPath, stateObj.m_Path));
                     Texture2D t = (Texture2D)stateObj.m_Asset;
-                    if (t != null)
+                    if (t != null && stateObj.m_ExistStatus == AssetExistStatusEnum.Quote)
                         stateObj.m_Quote++;
                     if (stateObj.m_ExistStatus == AssetExistStatusEnum.Once)
                         stateObj.m_Asset = null;
@@ -149,11 +162,11 @@ namespace ResLibary
                     data = ((ILibaryHandle)this).GetTextAsset(objName);
                     break;
                 case LibaryTypeEnum.LibaryType_TextAsset:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_CanRead_TextAsset;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_TextAsset;
                     data = ((ILibaryHandle)this).GetTexture2d(objName);
                     break;
                 case LibaryTypeEnum.LibaryType_AudioClip:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_NotRead_StreamAssetPath;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_StreamAssetPath;
                     FileStateObj fobjAudio = GetFileStateObj(_type, objName);
                     if (fobjAudio != null)
                     {
@@ -162,7 +175,7 @@ namespace ResLibary
                     break;
                 case LibaryTypeEnum.LibaryType_VideoClip:
                 case LibaryTypeEnum.LibaryType_MovieTexture:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_NotRead_StreamAssetPath;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_StreamAssetPath;
                     FileStateObj fobjVideo = GetFileStateObj(_type, objName);
                     if (fobjVideo != null)
                     {

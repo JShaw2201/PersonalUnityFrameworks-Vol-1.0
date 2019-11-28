@@ -17,6 +17,8 @@ namespace ResLibary
 
         void InsertLibrary(object data);
 
+        void DeleteLiibrary(string type,string name);
+
         /// <summary>
         /// 释放某个资源
         /// </summary>

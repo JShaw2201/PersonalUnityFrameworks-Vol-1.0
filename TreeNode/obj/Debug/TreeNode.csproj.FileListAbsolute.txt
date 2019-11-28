@@ -1,9 +1,0 @@
-F:\_tjx\svn\code\JShawFrameWork\TreeNode\TreeNode\bin\Debug\TreeNode.dll
-F:\_tjx\svn\code\JShawFrameWork\TreeNode\TreeNode\bin\Debug\TreeNode.pdb
-F:\_tjx\svn\code\JShawFrameWork\TreeNode\TreeNode\obj\Debug\TreeNode.dll
-F:\_tjx\svn\code\JShawFrameWork\TreeNode\TreeNode\obj\Debug\TreeNode.pdb
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\TreeNode\bin\Debug\TreeNode.dll
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\TreeNode\bin\Debug\TreeNode.pdb
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\TreeNode\obj\Debug\TreeNode.dll
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\TreeNode\obj\Debug\TreeNode.pdb
-F:\_tjx\svn\code\JShawFrameWork\_JSFrameWorkDll\TreeNode\obj\Debug\TreeNode.csprojResolveAssemblyReference.cache
