@@ -74,15 +74,20 @@ namespace ResLibary
                 Dictionary<string, FileStateObj> _Dict = resourceDict[_type];
                 FileStateObj stateObj;
                 _Dict.TryGetValue(objName, out stateObj);
-                if (stateObj != null && stateObj.m_Asset == null)
+                if (stateObj != null)
                 {
                     string path = Path.Combine(streamingAssetPath, stateObj.m_Path);
-                    stateObj.m_Asset = ResLibaryTool.LoadFileStr(path);
-                    if (stateObj.m_Asset != null && stateObj.m_ExistStatus == AssetExistStatusEnum.Quote)
+                    string str = null;
+                    if (stateObj.m_Asset == null)
+                    {
+                        stateObj.m_Asset = ResLibaryTool.LoadFileStr(path);
+                    };
+                    str = (string)stateObj.m_Asset;
+                    if (str != null && stateObj.m_ExistStatus == AssetExistStatusEnum.Quote)
                         stateObj.m_Quote++;
                     if (stateObj.m_ExistStatus == AssetExistStatusEnum.Once)
                         stateObj.m_Asset = null;
-                    return (string)stateObj.m_Asset;
+                    return str;
                 }
             }
             return null;
@@ -94,25 +99,19 @@ namespace ResLibary
             FileStateObj stateObj = GetFileStateObj(_type, objName);
             if (stateObj != null)
             {
+                Sprite spr = null;
                 if (stateObj.m_Asset == null)
                 {
                     Texture2D t = ((ILibaryHandle)this).GetTexture2d(objName);
-                    Sprite spr = null;
                     if (t != null)
-                    {
-                        spr = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
-                        if(stateObj.m_ExistStatus == AssetExistStatusEnum.Quote)
-                            stateObj.m_Quote++;
-                    }
-
-                    if (spr != null)
-                        stateObj.m_Asset = spr;
-                    if (stateObj.m_ExistStatus == AssetExistStatusEnum.Once)
-                        stateObj.m_Asset = null;
-                    return spr;
+                        stateObj.m_Asset = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
                 }
-                else
-                    return (Sprite)stateObj.m_Asset;
+                spr = (Sprite)stateObj.m_Asset;
+                if (spr != null && stateObj.m_ExistStatus == AssetExistStatusEnum.Quote)
+                    stateObj.m_Quote++;
+                if (stateObj.m_ExistStatus == AssetExistStatusEnum.Once)
+                    stateObj.m_Asset = null;
+                return spr;
             }
 
             return null;
@@ -129,7 +128,10 @@ namespace ResLibary
                 if (stateObj != null)
                 {
                     if (stateObj.m_Asset == null)
+                    {
                         stateObj.m_Asset = ResLibaryTool.readLocalTexture2d(Path.Combine(streamingAssetPath, stateObj.m_Path));
+                        stateObj.m_Quote = 0;
+                    }
                     Texture2D t = (Texture2D)stateObj.m_Asset;
                     if (t != null && stateObj.m_ExistStatus == AssetExistStatusEnum.Quote)
                         stateObj.m_Quote++;
