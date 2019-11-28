@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResLibaryMgr.Model", "ResLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResLibaryMgr.Tool", "ResLibaryMgr.Tool\ResLibaryMgr.Tool.csproj", "{A838B4B5-E83D-47C6-A6A0-AA244F531BEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResLibaryMgr.Editor", "ResLibaryMgr.Editor\ResLibaryMgr.Editor.csproj", "{0C34C36A-5291-4EC3-9708-D6E38E62A23F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A838B4B5-E83D-47C6-A6A0-AA244F531BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A838B4B5-E83D-47C6-A6A0-AA244F531BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A838B4B5-E83D-47C6-A6A0-AA244F531BEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C34C36A-5291-4EC3-9708-D6E38E62A23F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C34C36A-5291-4EC3-9708-D6E38E62A23F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C34C36A-5291-4EC3-9708-D6E38E62A23F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C34C36A-5291-4EC3-9708-D6E38E62A23F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
