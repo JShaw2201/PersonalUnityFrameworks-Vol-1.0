@@ -105,7 +105,7 @@ public class AssetLibarySettingWindows : EditorWindow
                 string file = files[j];
 
                 string extension = Path.GetExtension(file);
-                if (!ResLibaryTool.ResourceExts.Contains(extension))
+                if (!ResLibaryConfig.ResourceExts.Contains(extension))
                     continue;
 
                 file = file.Replace("//", "/");
@@ -117,9 +117,9 @@ public class AssetLibarySettingWindows : EditorWindow
                 {
                     continue;
                 }        
-                if (!ResLibaryTool.ExistType.ContainsValue(obj.GetType().Name))
+                if (!ResLibaryConfig.ExistType.ContainsValue(obj.GetType().Name))
                     continue;
-                if (obj.GetType().Name == ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D])
+                if (obj.GetType().Name == ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D])
                 {
                     string resfile = AssetDatabase.GetAssetPath(obj);
                     TextureImporter textureImporter = TextureImporter.GetAtPath(resfile) as TextureImporter;
@@ -128,12 +128,12 @@ public class AssetLibarySettingWindows : EditorWindow
                     if (textureImporter.textureType == TextureImporterType.Sprite)
                     {
                         List<string> sDict = null;
-                        msgDict.TryGetValue(ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite], out sDict);
+                        msgDict.TryGetValue(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite], out sDict);
                         UnityEngine.Object[] sprs = AssetDatabase.LoadAllAssetsAtPath(resfile);
                         for (int k = 0; k < sprs.Length; k++)
                         {
 
-                            if (sprs[k].GetType().Name == ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite])
+                            if (sprs[k].GetType().Name == ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite])
                             {
                                 if (sDict != null && sDict.Contains(sprs[k].name))
                                 {
@@ -144,7 +144,7 @@ public class AssetLibarySettingWindows : EditorWindow
                             else
                             {
                                 List<string> sDictT = null;
-                                msgDict.TryGetValue(ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D], out sDictT);
+                                msgDict.TryGetValue(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D], out sDictT);
                                 if (sDictT != null && sDictT.Contains(sprs[k].name))
                                 {
                                     continue;
@@ -156,7 +156,7 @@ public class AssetLibarySettingWindows : EditorWindow
                     else
                     {
                         List<string> sDict = null;
-                        msgDict.TryGetValue(ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D], out sDict);
+                        msgDict.TryGetValue(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D], out sDict);
                         if (sDict != null && sDict.Contains(obj.name))
                         {
                             continue;

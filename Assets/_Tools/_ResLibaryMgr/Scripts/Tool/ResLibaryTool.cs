@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ResLibary
 {
-    public class ResLibaryTool :MonoBehaviour
+    public class ResLibaryTool : MonoBehaviour
     {
         private static volatile ResLibaryTool instance;
         private static object syncRoot = new object();
@@ -78,68 +78,7 @@ namespace ResLibary
             }
         }
 
-        // 支持的资源文件格式
-        public static readonly List<string> ResourceExts = new List<string>
-    {                        ".prefab", ".fbx",
-                             ".png", ".jpg", ".dds", ".gif", ".psd", ".tga", ".bmp",
-                             ".txt", ".bytes", ".xml", ".csv", ".json",
-                             ".controller", ".shader", ".anim", ".unity", ".mat",
-                             ".wav", ".mp3", ".ogg",".mp4",
-                             ".ttf",
-                             ".shadervariants", ".asset"
-    };
-
-        // 支持的资源文件格式
-        public static readonly List<string> ResourceImgExts = new List<string> {
-        ".png", ".jpg", ".dds", ".gif", ".psd", ".tga", ".bmp"};
-        public static readonly List<string> ResourceTxtExts = new List<string> {
-        ".txt", ".bytes", ".xml", ".csv", ".json"};
-        public static readonly List<string> ResourceAudioExts = new List<string> {
-        ".wav", ".mp3"};
-
-        public static readonly List<string> ResourceVideoExts = new List<string> {
-        ".mp4",".avi",".ogg"};
-
-
-
-        public static readonly Dictionary<LibaryTypeEnum, string> ExistType = new Dictionary<LibaryTypeEnum, string>()
-    {
-        {LibaryTypeEnum.LibaryType_Texture2D,"Texture2D"},
-        {LibaryTypeEnum.LibaryType_RenderTexture,"RenderTexture"},
-        {LibaryTypeEnum.LibaryType_Sprite,"Sprite"      },
-        {LibaryTypeEnum.LibaryType_TextAsset,"TextAsset"    },
-        {LibaryTypeEnum.LibaryType_Material,"Material"    },
-        {LibaryTypeEnum.LibaryType_GameObject,"GameObject"   },
-        {LibaryTypeEnum.LibaryType_AudioClip,"AudioClip"    },
-        {LibaryTypeEnum.LibaryType_VideoClip,"VideoClip"    },
-        {LibaryTypeEnum.LibaryType_MovieTexture,"MovieTexture"  }
-    };
-
-        public static readonly Dictionary<string, LibaryTypeEnum> ExistTypeNameToEnum = new Dictionary<string, LibaryTypeEnum>()
-    {
-        {"Texture2D"    ,LibaryTypeEnum.LibaryType_Texture2D    },
-        {"RenderTexture",LibaryTypeEnum.LibaryType_RenderTexture},
-        {"Sprite"       ,LibaryTypeEnum.LibaryType_Sprite       },
-        {"TextAsset"    ,LibaryTypeEnum.LibaryType_TextAsset   },
-        {"Material"     ,LibaryTypeEnum.LibaryType_Material     },
-        {"GameObject"   ,LibaryTypeEnum.LibaryType_GameObject   },
-        {"AudioClip"    ,LibaryTypeEnum.LibaryType_AudioClip    },
-        {"VideoClip"    ,LibaryTypeEnum.LibaryType_VideoClip    },
-        {"MovieTexture" ,LibaryTypeEnum.LibaryType_MovieTexture }
-    };
-
-        public static readonly Dictionary<string, Type> ExistTypeNameToType = new Dictionary<string, Type>()
-    {
-        {"Texture2D",typeof(Texture2D)},
-        {"RenderTexture",typeof(RenderTexture)},
-        {"Sprite",typeof(Sprite)},
-        {"TextAsset",typeof(TextAsset)},
-        {"Material",typeof(Material)},
-        {"GameObject",typeof(GameObject)},
-        {"AudioClip",typeof(AudioClip)},
-        {"VideoClip",typeof(UnityEngine.Video.VideoClip)},
-        {"MovieTexture",typeof(MovieTexture)}
-    };
+        
 
         public static string LoadFileStr(string path)
         {
@@ -298,11 +237,11 @@ namespace ResLibary
                 string ext = System.IO.Path.GetExtension(files[i]);
                 if (string.IsNullOrEmpty(ext))
                     continue;
-                for (int j = 0; j < ResourceExts.Count; ++j)
+                for (int j = 0; j < ResLibaryConfig.ResourceExts.Count; ++j)
                 {
-                    if (string.Compare(ext, ResourceExts[j], true) == 0)
+                    if (string.Compare(ext, ResLibaryConfig.ResourceExts[j], true) == 0)
                     {
-                        if ((ResourceExts[j] == ".fbx"))
+                        if ((ResLibaryConfig.ResourceExts[j] == ".fbx"))
                         {
                             // ingore xxx@idle.fbx
                             string name = Path.GetFileNameWithoutExtension(files[i]);
@@ -335,42 +274,66 @@ namespace ResLibary
 
 #if UNITY_EDITOR
 
-        var scenes = UnityEditor.EditorBuildSettings.scenes;
-        if (scenes == null)
-            return ret;
-        var iter = scenes.GetEnumerator();
-        while (iter.MoveNext())
-        {
-            UnityEditor.EditorBuildSettingsScene scene = iter.Current as UnityEditor.EditorBuildSettingsScene;
-            if ((scene != null) && scene.enabled)
+            var scenes = UnityEditor.EditorBuildSettings.scenes;
+            if (scenes == null)
+                return ret;
+            var iter = scenes.GetEnumerator();
+            while (iter.MoveNext())
             {
-                if (string.Compare(scene.path, localFileName, true) == 0)
+                UnityEditor.EditorBuildSettingsScene scene = iter.Current as UnityEditor.EditorBuildSettingsScene;
+                if ((scene != null) && scene.enabled)
                 {
-                    ret = true;
-                    break;
+                    if (string.Compare(scene.path, localFileName, true) == 0)
+                    {
+                        ret = true;
+                        break;
+                    }
                 }
             }
-        }
 #endif
             return ret;
         }
-
+        private ResLibary.GlobalCoroutineMgr GlobalCoroutine;
         private void OnInit()
         {
-
-        }
-        public static void UTStopCoroutine(string methodName)
-        {
-            ResLibaryTool.Instance.StopCoroutine(methodName);
-        }
-        public static void UTStopCoroutine(IEnumerator routine)
-        {
-            ResLibaryTool.Instance.StopCoroutine(routine);
+            GlobalCoroutine = gameObject.AddComponent<ResLibary.GlobalCoroutineMgr>();
+            GlobalCoroutine.OnInit();
         }
 
-        public static Coroutine UTStartCoroutine(IEnumerator routine)
+        public void m_UTStartCoroutine(string id, IEnumerator routine)
         {
-            return ResLibaryTool.Instance.StartCoroutine(routine);
+            GlobalCoroutine.UTStartCoroutine(id, routine);
         }
+        public IEnumerator m_BGStartCoroutine(string id, IEnumerator routine)
+        {
+            return GlobalCoroutine.GBStartCoroutine(id, routine);
+        }
+
+        public void m_UTStopCoroutine(string id)
+        {
+            GlobalCoroutine.UTStopCoroutine(id);
+        }
+
+        public static void UTStopCoroutine(string id)
+        {
+            Instance.m_UTStopCoroutine(id);
+        }
+
+        //public static void UTStopCoroutine(IEnumerator routine)
+        //{
+        //    Instance.StopCoroutine(routine);
+        //}
+
+        public static void UTStartCoroutine(IEnumerator routine)
+        {
+            string id = Time.time.ToString() + UnityEngine.Random.Range(1, 100).ToString();
+            UTStartCoroutine(id, routine);
+        }
+
+        public static void UTStartCoroutine(string id, IEnumerator routine)
+        {
+            Instance.m_UTStartCoroutine(id, routine);
+        }
+
     }
 }

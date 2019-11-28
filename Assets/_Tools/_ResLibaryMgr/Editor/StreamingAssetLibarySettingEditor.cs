@@ -135,27 +135,27 @@ public class StreamingAssetLibarySettingEditor : Editor
                 string filePath = resfile.Substring(index);
                 filePath = filePath.Replace("StreamingAssets/", "");             
                 string fileName = Path.GetFileNameWithoutExtension(resfile);
-                if (ResLibaryTool.ResourceImgExts.Contains(extension))
+                if (ResLibaryConfig.ResourceImgExts.Contains(extension))
                 {
-                    typeName =ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
+                    typeName =ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
                     ResourceSettingStateObj resourceSettingStateObjs = new ResourceSettingStateObj();
                     resourceSettingStateObjs.m_Name = fileName;
                     resourceSettingStateObjs.m_Path = filePath;
-                    resourceSettingStateObjs.m_Type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite];
+                    resourceSettingStateObjs.m_Type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite];
                     resourceSettingStateObjs.m_ExistStatus = AssetExistStatusEnum.Quote;
                     resourseSetting.AddResToLibary(resourceSettingStateObjs);
                 }
-                else if (ResLibaryTool.ResourceTxtExts.Contains(extension))
+                else if (ResLibaryConfig.ResourceTxtExts.Contains(extension))
                 {
-                    typeName = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_TextAsset];
+                    typeName = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset];
                 }
-                else if (ResLibaryTool.ResourceAudioExts.Contains(extension))
+                else if (ResLibaryConfig.ResourceAudioExts.Contains(extension))
                 {
-                    typeName = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_AudioClip];
+                    typeName = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_AudioClip];
                 }
-                else if (ResLibaryTool.ResourceVideoExts.Contains(extension))
+                else if (ResLibaryConfig.ResourceVideoExts.Contains(extension))
                 {
-                    typeName = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_VideoClip];
+                    typeName = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_VideoClip];
                 }
                 else
                     continue;              

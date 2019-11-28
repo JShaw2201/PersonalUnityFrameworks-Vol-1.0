@@ -191,7 +191,7 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
         {
             LibaryStateObj lobj;
             Dictionary<string, LibaryStateObj> lDict = libaryDict[objName];
-            if (lDict.TryGetValue(ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_TextAsset], out lobj))
+            if (lDict.TryGetValue(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset], out lobj))
             {
                 switch (lobj.m_Status)
                 {
@@ -213,7 +213,7 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
 
     public Texture2D GetTexture2d(string objName)
     {
-        return (Texture2D)GetUnityObject(ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D], objName);
+        return (Texture2D)GetUnityObject(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D], objName);
     }
 
     public T GetObject<T>(string objName) where T : UnityEngine.Object
@@ -255,7 +255,7 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
         {
             LibaryStateObj lobj;
             Dictionary<string, LibaryStateObj> lDict = libaryDict[objName];
-            if (lDict.TryGetValue(ResLibaryTool.ExistType[libaryTypeEnum], out lobj))
+            if (lDict.TryGetValue(ResLibaryConfig.ExistType[libaryTypeEnum], out lobj))
             {
                 switch (lobj.m_Status)
                 {
@@ -281,7 +281,7 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
         {
             LibaryStateObj lobj;
             Dictionary<string, LibaryStateObj> lDict = libaryDict[objName];
-            if (lDict.TryGetValue(ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_TextAsset], out lobj))
+            if (lDict.TryGetValue(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset], out lobj))
             {
                 switch (lobj.m_Status)
                 {
@@ -308,7 +308,7 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
 
     public void releaseObj(LibaryTypeEnum libaryTypeEnum, string objName)
     {
-        releaseObj(ResLibaryTool.ExistType[libaryTypeEnum], objName);
+        releaseObj(ResLibaryConfig.ExistType[libaryTypeEnum], objName);
     }
 
     public void releaseAll()
@@ -334,23 +334,23 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
         {
             foreach (var item in libaryDict[objName].Keys)
             {
-                if (item == ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite])
+                if (item == ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite])
                 {
                     continue;
                 }
-                if (item == ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_TextAsset])
+                if (item == ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset])
                 {
                     data = GetTextAsset(objName);
                     if (data != null)
                         break;
                 }
-                if (item == ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D])
+                if (item == ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D])
                 {
                     data = GetTexture2d(objName);
                     if (data != null)
                         break;
                 }
-                libaryExistStatusEnum = TryGetObject(ResLibaryTool.ExistTypeNameToEnum[item] ,objName, out data);
+                libaryExistStatusEnum = TryGetObject(ResLibaryConfig.ExistTypeNameToEnum[item] ,objName, out data);
                 if (libaryExistStatusEnum != LibaryExistStatusEnum.NONE)
                     break;
             }

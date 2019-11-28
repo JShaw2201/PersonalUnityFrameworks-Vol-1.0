@@ -134,7 +134,7 @@ public class ResourceLibarySettingEditor : Editor
             {
                 string resfile = files[j];
                 string extension = Path.GetExtension(resfile);
-                if (!ResLibaryTool.ResourceExts.Contains(extension))
+                if (!ResLibaryConfig.ResourceExts.Contains(extension))
                     continue;
                 resfile = ResLibaryTool.GetAssetRelativePath(resfile);
                 int index = resfile.IndexOf("Resources/", StringComparison.CurrentCultureIgnoreCase);
@@ -145,15 +145,15 @@ public class ResourceLibarySettingEditor : Editor
                 if (Path.HasExtension(filePath))
                     filePath = filePath.Replace(extension, "");
                 UnityEngine.Object obj = Resources.Load(filePath);
-                if (!ResLibaryTool.ExistType.ContainsValue(obj.GetType().Name))
+                if (!ResLibaryConfig.ExistType.ContainsValue(obj.GetType().Name))
                     continue;
-                if (obj.GetType().Name == ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D])
+                if (obj.GetType().Name == ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D])
                 {
                     TextureImporter textureImporter = TextureImporter.GetAtPath(resfile) as TextureImporter;
                     if (textureImporter.textureType == TextureImporterType.Sprite)
                     {
                         Dictionary<string, ResourceSettingStateObj> sDict = null;
-                        msgDict.TryGetValue(ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite], out sDict);
+                        msgDict.TryGetValue(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite], out sDict);
                         UnityEngine.Object[] sprs = AssetDatabase.LoadAllAssetsAtPath(resfile);
                         for (int k = 0; k < sprs.Length; k++)
                         {
@@ -162,8 +162,8 @@ public class ResourceLibarySettingEditor : Editor
                             ResourceSettingStateObj settingStateObjs = new ResourceSettingStateObj();
                             settingStateObjs.m_Name = sprs[k].name;
                             settingStateObjs.m_Path = filePath + "/" + sprs[k].name;
-                            settingStateObjs.m_Type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite];
-                            if (sprs[k].GetType().Name == ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite])
+                            settingStateObjs.m_Type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite];
+                            if (sprs[k].GetType().Name == ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite])
                             {
                                 if (sDict != null && sDict.ContainsKey(sprs[k].name))
                                 {
@@ -175,14 +175,14 @@ public class ResourceLibarySettingEditor : Editor
                             else
                             {
                                 Dictionary<string, ResourceSettingStateObj> sDictT = null;
-                                msgDict.TryGetValue(ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D], out sDictT);
+                                msgDict.TryGetValue(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D], out sDictT);
                                 if (sDictT != null && sDictT.ContainsKey(sprs[k].name))
                                 {
                                     resourseSetting.AddResToLibary(sDictT[sprs[k].name]);
                                     continue;
                                 }
                                 settingStateObjs.m_Path = filePath;
-                                settingStateObjs.m_Type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
+                                settingStateObjs.m_Type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
                                 resourseSetting.AddResToLibary(settingStateObjs);
                             }
                         }
@@ -190,7 +190,7 @@ public class ResourceLibarySettingEditor : Editor
                     else
                     {
                         Dictionary<string, ResourceSettingStateObj> sDict = null;
-                        msgDict.TryGetValue(ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D], out sDict);
+                        msgDict.TryGetValue(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D], out sDict);
                         if (sDict != null && sDict.ContainsKey(obj.name))
                         {
                             resourseSetting.AddResToLibary(sDict[obj.name]);

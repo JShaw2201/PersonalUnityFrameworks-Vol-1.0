@@ -22,15 +22,15 @@ public class LibaryAssetSetting : ScriptableObject
     public Dictionary<string, List<string>> GetAssetDict()
     {
         Dictionary<string, List<string>> Dict = new Dictionary<string, List<string>>();
-        Dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D]] = GetAssetList(texture2ds);
-        Dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_RenderTexture]] = GetAssetList(renderTextures);
-        Dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite]] = GetAssetList(sprites);
-        Dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_TextAsset]] = GetAssetList(textAssets);
-        Dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Material]] = GetAssetList(materials);
-        Dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_GameObject]] = GetAssetList(prefabs);
-        Dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_AudioClip]] = GetAssetList(audios);
-        Dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_VideoClip]] = GetAssetList(videos);
-        Dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_MovieTexture]] = GetAssetList(movieTextures);
+        Dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D]] = GetAssetList(texture2ds);
+        Dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_RenderTexture]] = GetAssetList(renderTextures);
+        Dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite]] = GetAssetList(sprites);
+        Dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset]] = GetAssetList(textAssets);
+        Dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Material]] = GetAssetList(materials);
+        Dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_GameObject]] = GetAssetList(prefabs);
+        Dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_AudioClip]] = GetAssetList(audios);
+        Dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_VideoClip]] = GetAssetList(videos);
+        Dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_MovieTexture]] = GetAssetList(movieTextures);
         return Dict;
     }
     public List<string> GetAssetList<T>(List<T> dist) where T : UnityEngine.Object
@@ -51,7 +51,7 @@ public class LibaryAssetSetting : ScriptableObject
     {
         LibaryTypeEnum libaryStatusEnum;
         string m_Type = t.GetType().Name;
-        if (!ResLibaryTool.ExistTypeNameToEnum.TryGetValue(m_Type, out libaryStatusEnum))
+        if (!ResLibaryConfig.ExistTypeNameToEnum.TryGetValue(m_Type, out libaryStatusEnum))
             return;
         UnityEngine.Object data = t;
         switch (libaryStatusEnum)
@@ -117,7 +117,7 @@ public class LibaryAssetSetting : ScriptableObject
     {
         LibaryTypeEnum libaryStatusEnum;
         string m_Type = _type;
-        if (!ResLibaryTool.ExistTypeNameToEnum.TryGetValue(m_Type, out libaryStatusEnum))
+        if (!ResLibaryConfig.ExistTypeNameToEnum.TryGetValue(m_Type, out libaryStatusEnum))
             return;
         switch (libaryStatusEnum)
         {

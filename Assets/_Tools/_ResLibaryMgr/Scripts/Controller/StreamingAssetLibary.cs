@@ -49,9 +49,9 @@ namespace ResLibary
                 Dictionary<string, FileStateObj> dict = resourceDict[_type];
                 FileStateObj resobj = new FileStateObj(item);
 
-                if (item.m_ExistStatus == AssetExistStatusEnum.Globle && ResLibaryTool.ExistTypeNameToType.ContainsKey(resobj.m_Type))
+                if (item.m_ExistStatus == AssetExistStatusEnum.Globle && ResLibaryConfig.ExistTypeNameToType.ContainsKey(resobj.m_Type))
                 {
-                    resobj.m_Asset = Resources.Load(resobj.m_Path, ResLibaryTool.ExistTypeNameToType[resobj.m_Type]);
+                    resobj.m_Asset = Resources.Load(resobj.m_Path, ResLibaryConfig.ExistTypeNameToType[resobj.m_Type]);
                 }
                 dict[item.m_Name] = resobj;
                 LibaryStateObj libaryObj = new LibaryStateObj();
@@ -67,7 +67,7 @@ namespace ResLibary
         }
         string ILibaryHandle.GetTextAsset(string objName)
         {
-            string _type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_TextAsset];
+            string _type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset];
             string streamingAssetPath = Application.streamingAssetsPath;
             if (resourceDict.ContainsKey(_type))
             {
@@ -90,7 +90,7 @@ namespace ResLibary
 
         Sprite ILibaryHandle.GetSprite(string objName)
         {
-            string _type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
+            string _type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
             FileStateObj stateObj = GetFileStateObj(_type, objName);
             if (stateObj != null)
             {
@@ -119,7 +119,7 @@ namespace ResLibary
         }
         Texture2D ILibaryHandle.GetTexture2d(string objName)
         {
-            string _type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
+            string _type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
             string streamingAssetPath = Application.streamingAssetsPath;
             if (resourceDict.ContainsKey(_type))
             {
@@ -151,9 +151,9 @@ namespace ResLibary
         {
             data = null;
             LibaryExistStatusEnum libaryExistStatusEnum = LibaryExistStatusEnum.NONE;
-            if (!ResLibaryTool.ExistType.ContainsKey(libaryTypeEnum))
+            if (!ResLibaryConfig.ExistType.ContainsKey(libaryTypeEnum))
                 return libaryExistStatusEnum;
-            string _type = ResLibaryTool.ExistType[libaryTypeEnum];
+            string _type = ResLibaryConfig.ExistType[libaryTypeEnum];
 
             switch (libaryTypeEnum)
             {
@@ -211,7 +211,7 @@ namespace ResLibary
         }
         void ILibaryHandle.releaseObj(LibaryTypeEnum libaryTypeEnum, string objName)
         {
-            string _type = ResLibaryTool.ExistType[libaryTypeEnum];
+            string _type = ResLibaryConfig.ExistType[libaryTypeEnum];
             ((ILibaryHandle)this).releaseObj(_type, objName);
         }
 

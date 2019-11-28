@@ -211,7 +211,7 @@ namespace ResLibary
 
         LibaryExistStatusEnum ILibaryHandle.TryGetObject(LibaryTypeEnum libaryTypeEnum, string objName, out object data)
         {
-            data = ((ILibaryHandle)this).GetUnityObject(ResLibaryTool.ExistType[libaryTypeEnum], objName);
+            data = ((ILibaryHandle)this).GetUnityObject(ResLibaryConfig.ExistType[libaryTypeEnum], objName);
             LibaryExistStatusEnum libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_UnityEngineObject;
             return libaryExistStatusEnum;
         }
@@ -238,7 +238,7 @@ namespace ResLibary
         public void AddLibary(UnityEngine.Object assetObj)
         {
             string typeName = assetObj.GetType().Name;
-            if (ResLibaryTool.ExistType.ContainsValue(typeName))
+            if (ResLibaryConfig.ExistType.ContainsValue(typeName))
             {
                 if (!assetDict.ContainsKey(typeName))
                 {

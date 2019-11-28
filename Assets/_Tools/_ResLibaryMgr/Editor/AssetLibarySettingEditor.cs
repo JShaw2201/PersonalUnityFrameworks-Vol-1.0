@@ -145,9 +145,9 @@ public class AssetLibarySettingEditor : Editor
         {
             if (item == null || item.GetType() == typeof(DefaultAsset))
                 continue;
-            if (ResLibaryTool.ExistType.ContainsValue(item.GetType().Name))
+            if (ResLibaryConfig.ExistType.ContainsValue(item.GetType().Name))
             {
-                if (item.GetType().Name == ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D])
+                if (item.GetType().Name == ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D])
                 {
                     string tex2dpath = AssetDatabase.GetAssetPath(item);
                     TextureImporter textureImporter = TextureImporter.GetAtPath(tex2dpath) as TextureImporter;
@@ -159,7 +159,7 @@ public class AssetLibarySettingEditor : Editor
                         {
                             //Sprite spr = AssetDatabase.LoadAssetAtPath<Sprite>(textPath + "/"+ sprs[i].name);
                             Object spr = sprs[i];
-                            if (spr != null && spr.GetType().Name == ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite])
+                            if (spr != null && spr.GetType().Name == ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite])
                                 assetSetting.AddResToLibary((Sprite)spr);
                         }
                         if (textureImporter.spriteImportMode != SpriteImportMode.Multiple)
@@ -198,7 +198,7 @@ public class AssetLibarySettingEditor : Editor
         {
             if (item == null || item.GetType() == typeof(DefaultAsset))
                 continue;
-            if (ResLibaryTool.ExistType.ContainsValue(item.GetType().Name))
+            if (ResLibaryConfig.ExistType.ContainsValue(item.GetType().Name))
             {
                 if (item.GetType() == typeof(Texture2D))
                 {

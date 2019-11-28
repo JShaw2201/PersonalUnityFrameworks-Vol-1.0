@@ -55,9 +55,9 @@ namespace ResLibary
                 Dictionary<string, ResourceStateObj> dict = resourceDict[_type];
                 ResourceStateObj resobj = new ResourceStateObj(item);
 
-                if (item.m_ExistStatus == AssetExistStatusEnum.Globle && ResLibaryTool.ExistTypeNameToType.ContainsKey(resobj.m_Type))
+                if (item.m_ExistStatus == AssetExistStatusEnum.Globle && ResLibaryConfig.ExistTypeNameToType.ContainsKey(resobj.m_Type))
                 {
-                    resobj.m_Asset = Resources.Load(resobj.m_Path, ResLibaryTool.ExistTypeNameToType[resobj.m_Type]);
+                    resobj.m_Asset = Resources.Load(resobj.m_Path, ResLibaryConfig.ExistTypeNameToType[resobj.m_Type]);
                 }
                 dict[item.m_Name] = resobj;
 
@@ -150,14 +150,14 @@ namespace ResLibary
 
         LibaryExistStatusEnum ILibaryHandle.TryGetObject(LibaryTypeEnum libaryTypeEnum, string objName, out object data)
         {
-            data = ((ILibaryHandle)this).GetUnityObject(ResLibaryTool.ExistType[libaryTypeEnum], objName);
+            data = ((ILibaryHandle)this).GetUnityObject(ResLibaryConfig.ExistType[libaryTypeEnum], objName);
             LibaryExistStatusEnum libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_UnityEngineObject;
             return libaryExistStatusEnum;
         }
 
         void ILibaryHandle.releaseObj(LibaryTypeEnum libaryTypeEnum, string objName)
         {
-            string _type = ResLibaryTool.ExistType[libaryTypeEnum];
+            string _type = ResLibaryConfig.ExistType[libaryTypeEnum];
             ((ILibaryHandle)this).releaseObj(_type, objName);
         }
 

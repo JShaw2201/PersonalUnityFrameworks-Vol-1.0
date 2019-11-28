@@ -107,25 +107,25 @@ namespace ResLibary
             {
                 string existension = file.Extension;
                 FileStateObj fileObj = null;
-                if (ResLibaryTool.ResourceTxtExts.Contains(existension))
+                if (ResLibaryConfig.ResourceTxtExts.Contains(existension))
                 {
                     fileObj = new FileStateObj();
                     fileObj.m_Path = localUrl;
-                    fileObj.m_Type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_TextAsset];
+                    fileObj.m_Type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset];
                     if (assetStatus == AssetExistStatusEnum.Globle)
                     {
                         fileObj.m_Asset = ResLibaryTool.LoadFileStr(localUrl);
                     }
 
                 }
-                else if (ResLibaryTool.ResourceImgExts.Contains(existension))
+                else if (ResLibaryConfig.ResourceImgExts.Contains(existension))
                 {
                     fileObj = new FileStateObj();
                     fileObj.m_Path = localUrl;
-                    fileObj.m_Type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
+                    fileObj.m_Type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
                     FileStateObj sfObj = new FileStateObj();
                     sfObj.m_Path = localUrl;
-                    sfObj.m_Type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite];
+                    sfObj.m_Type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite];
                     if (assetStatus == AssetExistStatusEnum.Globle)
                     {
                         Texture2D tex2d = ResLibaryTool.readLocalTexture2d(localUrl);
@@ -150,18 +150,18 @@ namespace ResLibary
                         UpdateAssetCallback(libaryObj);
                     //ResLibaryMgr.Instance.UpdateLibary(libaryObj);
                 }
-                else if (ResLibaryTool.ResourceVideoExts.Contains(existension))
+                else if (ResLibaryConfig.ResourceVideoExts.Contains(existension))
                 {
                     fileObj = new FileStateObj();
                     fileObj.m_Path = localUrl;
-                    fileObj.m_Type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_VideoClip];
+                    fileObj.m_Type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_VideoClip];
                     fileObj.m_Asset = localUrl;
                 }
-                else if (ResLibaryTool.ResourceAudioExts.Contains(existension))
+                else if (ResLibaryConfig.ResourceAudioExts.Contains(existension))
                 {
                     fileObj = new FileStateObj();
                     fileObj.m_Path = localUrl;
-                    fileObj.m_Type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_AudioClip];
+                    fileObj.m_Type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_AudioClip];
                     fileObj.m_Asset = localUrl;
                 }
                 if (fileObj != null)
@@ -189,7 +189,7 @@ namespace ResLibary
 
         string ILibaryHandle.GetTextAsset(string objName)
         {
-            string _type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_TextAsset];
+            string _type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset];
             FileStateObj stateObj = GetFileStateObj(_type, objName);
             if (stateObj != null && stateObj.m_Asset == null)
             {
@@ -206,7 +206,7 @@ namespace ResLibary
 
         Sprite ILibaryHandle.GetSprite(string objName)
         {
-            string _type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
+            string _type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
             FileStateObj stateObj = GetFileStateObj(_type, objName);
             if (stateObj != null)
             {
@@ -238,7 +238,7 @@ namespace ResLibary
 
         Texture2D ILibaryHandle.GetTexture2d(string objName)
         {
-            string _type = ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
+            string _type = ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D];
             FileStateObj stateObj = GetFileStateObj(_type, objName);
             if (stateObj != null)
             {
@@ -271,9 +271,9 @@ namespace ResLibary
         {
             data = null;
             LibaryExistStatusEnum libaryExistStatusEnum = LibaryExistStatusEnum.NONE;
-            if (!ResLibaryTool.ExistType.ContainsKey(libaryTypeEnum))
+            if (!ResLibaryConfig.ExistType.ContainsKey(libaryTypeEnum))
                 return libaryExistStatusEnum;
-            string _type = ResLibaryTool.ExistType[libaryTypeEnum];
+            string _type = ResLibaryConfig.ExistType[libaryTypeEnum];
 
             switch (libaryTypeEnum)
             {
@@ -333,7 +333,7 @@ namespace ResLibary
 
         void ILibaryHandle.releaseObj(LibaryTypeEnum libaryTypeEnum, string objName)
         {
-            string _type = ResLibaryTool.ExistType[libaryTypeEnum];
+            string _type = ResLibaryConfig.ExistType[libaryTypeEnum];
             ((ILibaryHandle)this).releaseObj(_type, objName);
         }
 

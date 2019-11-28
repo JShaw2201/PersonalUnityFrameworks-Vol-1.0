@@ -46,7 +46,7 @@ public class ResourceStateObj: ResourceSettingStateObj
         public override void AddResToLibary(ResourceSettingStateObj resourceSetting)
         {
             LibaryTypeEnum libaryStatusEnum;
-            if (!ResLibaryTool.ExistTypeNameToEnum.TryGetValue(resourceSetting.m_Type, out libaryStatusEnum))
+            if (!ResLibaryConfig.ExistTypeNameToEnum.TryGetValue(resourceSetting.m_Type, out libaryStatusEnum))
                 return;
             switch (libaryStatusEnum)
             {
@@ -77,7 +77,7 @@ public class ResourceStateObj: ResourceSettingStateObj
         public override void DelResToLibary(ResourceSettingStateObj resourceSetting)
         {
             LibaryTypeEnum libaryStatusEnum;
-            if (!ResLibaryTool.ExistTypeNameToEnum.TryGetValue(resourceSetting.m_Type, out libaryStatusEnum))
+            if (!ResLibaryConfig.ExistTypeNameToEnum.TryGetValue(resourceSetting.m_Type, out libaryStatusEnum))
                 return;
             switch (libaryStatusEnum)
             {
@@ -108,10 +108,10 @@ public class ResourceStateObj: ResourceSettingStateObj
         public override Dictionary<string, Dictionary<string, ResourceSettingStateObj>> GetSettingMessage()
         {
             Dictionary<string, Dictionary<string, ResourceSettingStateObj>> dict = base.GetSettingMessage();
-            dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_RenderTexture]] = GetResourceSetting(renderTextures);
-            dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_MovieTexture]] = GetResourceSetting(movieTextures);
-            dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Material]] = GetResourceSetting(materials);
-            dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_GameObject]] = GetResourceSetting(prefabs);
+            dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_RenderTexture]] = GetResourceSetting(renderTextures);
+            dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_MovieTexture]] = GetResourceSetting(movieTextures);
+            dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Material]] = GetResourceSetting(materials);
+            dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_GameObject]] = GetResourceSetting(prefabs);
             return dict;
         }
 

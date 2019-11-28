@@ -7,8 +7,8 @@
     <ProjectGuid>{529315E4-2C44-4DFA-B5DF-AA655C39DFD9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ResLibaryMgr</RootNamespace>
-    <AssemblyName>ResLibaryMgr</AssemblyName>
+    <RootNamespace>ResLibaryMgr.Controller</RootNamespace>
+    <AssemblyName>ResLibaryMgr.Controller</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -62,22 +62,17 @@
     <Compile Include="..\..\Assets\_Tools\_ResLibaryMgr\Scripts\Model\ILibaryHandle.cs">
       <Link>ILibaryHandle.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\_Tools\_ResLibaryMgr\Scripts\Model\LibaryAssetSetting.cs">
-      <Link>LibaryAssetSetting.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\_Tools\_ResLibaryMgr\Scripts\Model\LibaryResourceSetting.cs">
-      <Link>LibaryResourceSetting.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\_Tools\_ResLibaryMgr\Scripts\Model\LibaryStreamingAssetSetting.cs">
-      <Link>LibaryStreamingAssetSetting.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\_Tools\_ResLibaryMgr\Scripts\Model\ResStateObj.cs">
-      <Link>ResStateObj.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\_Tools\_ResLibaryMgr\Scripts\ResLibaryTool.cs">
-      <Link>ResLibaryTool.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ResLibaryMgr.Model\ResLibaryMgr.Model.csproj">
+      <Project>{51114128-e64a-4328-a641-836cb6bdf349}</Project>
+      <Name>ResLibaryMgr.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResLibaryMgr.Tool\ResLibaryMgr.Tool.csproj">
+      <Project>{a838b4b5-e83d-47c6-a6a0-aa244f531bec}</Project>
+      <Name>ResLibaryMgr.Tool</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

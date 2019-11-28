@@ -213,9 +213,9 @@ namespace ResLibary
                         bundle = stateObj.bundleAsset;
                     }
                     UnityEngine.Object t = null;
-                    if (bundle != null && ResLibaryTool.ExistTypeNameToType.ContainsKey(_type))
+                    if (bundle != null && ResLibaryConfig.ExistTypeNameToType.ContainsKey(_type))
                     {
-                        t = bundle.LoadAsset(objName, ResLibaryTool.ExistTypeNameToType[_type]);
+                        t = bundle.LoadAsset(objName, ResLibaryConfig.ExistTypeNameToType[_type]);
                     }
                     if (t != null)
                         stateObj.bundleQuote++;
@@ -233,7 +233,7 @@ namespace ResLibary
 
         LibaryExistStatusEnum ILibaryHandle.TryGetObject(LibaryTypeEnum libaryTypeEnum, string objName, out object data)
         {
-            data = ((ILibaryHandle)this).GetUnityObject(ResLibaryTool.ExistType[libaryTypeEnum], objName);
+            data = ((ILibaryHandle)this).GetUnityObject(ResLibaryConfig.ExistType[libaryTypeEnum], objName);
             LibaryExistStatusEnum libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_UnityEngineObject;
             return libaryExistStatusEnum;
         }
@@ -254,7 +254,7 @@ namespace ResLibary
 
         void ILibaryHandle.releaseObj(LibaryTypeEnum libaryTypeEnum, string objName)
         {
-            string _type = ResLibaryTool.ExistType[libaryTypeEnum];
+            string _type = ResLibaryConfig.ExistType[libaryTypeEnum];
             ((ILibaryHandle)this).releaseObj(_type, objName);
         }
 

@@ -48,7 +48,7 @@ using UnityEngine;
         public virtual void AddResToLibary(ResourceSettingStateObj resourceSetting)
         {
             LibaryTypeEnum libaryStatusEnum;
-            if (!ResLibaryTool.ExistTypeNameToEnum.TryGetValue(resourceSetting.m_Type, out libaryStatusEnum))
+            if (!ResLibaryConfig.ExistTypeNameToEnum.TryGetValue(resourceSetting.m_Type, out libaryStatusEnum))
                 return;
             switch (libaryStatusEnum)
             {
@@ -81,7 +81,7 @@ using UnityEngine;
         public virtual void DelResToLibary(ResourceSettingStateObj resourceSetting)
         {
             LibaryTypeEnum libaryStatusEnum;
-            if (!ResLibaryTool.ExistTypeNameToEnum.TryGetValue(resourceSetting.m_Type, out libaryStatusEnum))
+            if (!ResLibaryConfig.ExistTypeNameToEnum.TryGetValue(resourceSetting.m_Type, out libaryStatusEnum))
                 return;
             switch (libaryStatusEnum)
             {
@@ -113,11 +113,11 @@ using UnityEngine;
         public virtual Dictionary<string, Dictionary<string, ResourceSettingStateObj>> GetSettingMessage()
         {
             Dictionary<string, Dictionary<string, ResourceSettingStateObj>> dict = new Dictionary<string, Dictionary<string, ResourceSettingStateObj>>();
-            dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Texture2D]] = GetResourceSetting(texture2ds);
-            dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_TextAsset]] = GetResourceSetting(textAssets);
-            dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_AudioClip]] = GetResourceSetting(audios);
-            dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_VideoClip]] = GetResourceSetting(videos);
-            dict[ResLibaryTool.ExistType[LibaryTypeEnum.LibaryType_Sprite]] = GetResourceSetting(sprites);
+            dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Texture2D]] = GetResourceSetting(texture2ds);
+            dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset]] = GetResourceSetting(textAssets);
+            dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_AudioClip]] = GetResourceSetting(audios);
+            dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_VideoClip]] = GetResourceSetting(videos);
+            dict[ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_Sprite]] = GetResourceSetting(sprites);
             return dict;
         }
         protected Dictionary<string, ResourceSettingStateObj> GetResourceSetting(List<ResourceSettingStateObj> list)
