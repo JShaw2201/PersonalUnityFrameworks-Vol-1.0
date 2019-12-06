@@ -146,6 +146,7 @@ namespace ResLibary
                     libaryObj.m_Name = sfObj.m_Name;
                     libaryObj.m_Status = LibaryStatusEnum.DIR_FILE;
                     libaryObj.m_Type = sfObj.m_Type;
+                    libaryObj.m_Path = localUrl;
                     if (UpdateAssetCallback != null)
                         UpdateAssetCallback(libaryObj);
                     //ResLibaryMgr.Instance.UpdateLibary(libaryObj);
@@ -180,6 +181,7 @@ namespace ResLibary
                     libaryObj.m_Name = fileObj.m_Name;
                     libaryObj.m_Status = LibaryStatusEnum.DIR_FILE;
                     libaryObj.m_Type = fileObj.m_Type;
+                    libaryObj.m_Path = localUrl;
                     if (UpdateAssetCallback != null)
                         UpdateAssetCallback(libaryObj);
                     //ResLibaryMgr.Instance.UpdateLibary(libaryObj);
@@ -280,7 +282,7 @@ namespace ResLibary
                     data = ((ILibaryHandle)this).GetTexture2d(objName);
                     break;
                 case LibaryTypeEnum.LibaryType_AudioClip:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_FilePath;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_NotRead_FilePath;
                     FileStateObj fobjAudio = GetFileStateObj(_type, objName);
                     if (fobjAudio != null)
                     {
@@ -289,7 +291,7 @@ namespace ResLibary
                     break;
                 case LibaryTypeEnum.LibaryType_VideoClip:
                 case LibaryTypeEnum.LibaryType_MovieTexture:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_FilePath;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_NotRead_FilePath;
                     FileStateObj fobjVideo = GetFileStateObj(_type, objName);
                     if (fobjVideo != null)
                     {

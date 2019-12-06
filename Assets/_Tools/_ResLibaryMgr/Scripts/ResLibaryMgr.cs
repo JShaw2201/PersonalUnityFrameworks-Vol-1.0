@@ -275,6 +275,28 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
         return LibaryExistStatusEnum.NONE;
     }
 
+    public LibaryStatusEnum TryGetAssetPath<T>(string objName, out string outPath) where T : UnityEngine.Object
+    {
+        string _type = typeof(T).Name;
+        return TryGetAssetPath(_type, objName,out outPath);
+    }
+
+    public LibaryStatusEnum TryGetAssetPath(string _type,string objName, out string outPath) 
+    {
+        if (libaryDict.ContainsKey(objName))
+        {
+            LibaryStateObj lobj;
+            Dictionary<string, LibaryStateObj> lDict = libaryDict[objName];
+            if (lDict.TryGetValue(ResLibaryConfig.ExistType[LibaryTypeEnum.LibaryType_TextAsset], out lobj))
+            {
+                outPath = lobj.m_Path;
+                return lobj.m_Status;
+            }
+        }
+        outPath = null;
+        return LibaryStatusEnum.DIR_ASSETS;
+    }
+
     public void releaseObj(string _type, string objName)
     {
         if (libaryDict.ContainsKey(objName))

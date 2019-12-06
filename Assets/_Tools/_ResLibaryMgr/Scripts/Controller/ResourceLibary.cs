@@ -65,6 +65,7 @@ namespace ResLibary
                 libaryObj.m_Name = item.m_Name;
                 libaryObj.m_Status = LibaryStatusEnum.DIR_RESOURCE;
                 libaryObj.m_Type = item.m_Type;
+                libaryObj.m_Path = resobj.m_Path;
                 if (UpdateAssetCallback != null)
                     UpdateAssetCallback(libaryObj);
                 //ResLibaryMgr.Instance.UpdateLibary(libaryObj);

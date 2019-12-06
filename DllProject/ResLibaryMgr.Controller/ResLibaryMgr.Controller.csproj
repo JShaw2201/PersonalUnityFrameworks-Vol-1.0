@@ -62,6 +62,9 @@
     <Compile Include="..\..\Assets\_Tools\_ResLibaryMgr\Scripts\Model\ILibaryHandle.cs">
       <Link>ILibaryHandle.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\_Tools\_ResLibaryMgr\Scripts\ResLibaryMgr.cs">
+      <Link>ResLibaryMgr.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

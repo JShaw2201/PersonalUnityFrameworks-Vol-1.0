@@ -49,15 +49,28 @@ namespace ResLibary
                 Dictionary<string, FileStateObj> dict = resourceDict[_type];
                 FileStateObj resobj = new FileStateObj(item);
 
-                if (item.m_ExistStatus == AssetExistStatusEnum.Globle && ResLibaryConfig.ExistTypeNameToType.ContainsKey(resobj.m_Type))
-                {
-                    resobj.m_Asset = Resources.Load(resobj.m_Path, ResLibaryConfig.ExistTypeNameToType[resobj.m_Type]);
-                }
+               
                 dict[item.m_Name] = resobj;
                 LibaryStateObj libaryObj = new LibaryStateObj();
                 libaryObj.m_Name = item.m_Name;
                 libaryObj.m_Status = LibaryStatusEnum.DIR_STREAMINGASSET;
                 libaryObj.m_Type = item.m_Type;
+                libaryObj.m_Path = resobj.m_Path;
+
+                if (item.m_ExistStatus == AssetExistStatusEnum.Globle && ResLibaryConfig.ExistTypeNameToType.ContainsKey(resobj.m_Type))
+                {
+                   
+                    switch (ResLibaryConfig.ExistTypeNameToEnum[resobj.m_Type])
+                    {
+                        case LibaryTypeEnum.LibaryType_Texture2D:                          
+                        case LibaryTypeEnum.LibaryType_TextAsset:                          
+                        case LibaryTypeEnum.LibaryType_Sprite:
+                            resobj.m_Asset = ((ILibaryHandle)this).GetUnityObject(_type, resobj.m_Name);
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 if (UpdateAssetCallback != null)
                     UpdateAssetCallback(libaryObj);
                 //ResLibaryMgr.Instance.UpdateLibary(libaryObj);
@@ -168,7 +181,7 @@ namespace ResLibary
                     data = ((ILibaryHandle)this).GetTexture2d(objName);
                     break;
                 case LibaryTypeEnum.LibaryType_AudioClip:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_StreamAssetPath;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_NotRead_StreamAssetPath;
                     FileStateObj fobjAudio = GetFileStateObj(_type, objName);
                     if (fobjAudio != null)
                     {
@@ -177,7 +190,7 @@ namespace ResLibary
                     break;
                 case LibaryTypeEnum.LibaryType_VideoClip:
                 case LibaryTypeEnum.LibaryType_MovieTexture:
-                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_StreamAssetPath;
+                    libaryExistStatusEnum = LibaryExistStatusEnum.LibaryExistStatus_NotUnityEngineObject_NotRead_StreamAssetPath;
                     FileStateObj fobjVideo = GetFileStateObj(_type, objName);
                     if (fobjVideo != null)
                     {

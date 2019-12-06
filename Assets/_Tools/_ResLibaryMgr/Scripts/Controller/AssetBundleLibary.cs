@@ -125,6 +125,7 @@ namespace ResLibary
                     libaryObj.m_Name = data[i].name;
                     libaryObj.m_Status = LibaryStatusEnum.DIR_ASSETBUNDER;
                     libaryObj.m_Type = data[i].GetType().Name;
+                    libaryObj.m_Path = bundleUrl;
                     if (UpdateAssetCallback != null)
                         UpdateAssetCallback(libaryObj);
                     //ResLibaryMgr.Instance.UpdateLibary(libaryObj);
