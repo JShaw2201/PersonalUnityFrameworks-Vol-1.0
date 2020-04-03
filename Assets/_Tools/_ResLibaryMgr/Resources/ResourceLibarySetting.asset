@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2871ff4d4b8ec4e882a4bfedbb242d, type: 3}
+  m_Name: ResourceLibarySetting
+  m_EditorClassIdentifier: 
+  texture2ds:
+  - m_Name: beautifulgirl_01
+    m_Path: Textures/beautifulgirl_01
+    m_Type: Texture2D
+    m_ExistStatus: 3
+  sprites:
+  - m_Name: beautifulgirl_01_0
+    m_Path: Textures/beautifulgirl_01/beautifulgirl_01_0
+    m_Type: Sprite
+    m_ExistStatus: 3
+  - m_Name: beautifulgirl_01_1
+    m_Path: Textures/beautifulgirl_01/beautifulgirl_01_1
+    m_Type: Sprite
+    m_ExistStatus: 3
+  - m_Name: beautifulgirl_01_2
+    m_Path: Textures/beautifulgirl_01/beautifulgirl_01_2
+    m_Type: Sprite
+    m_ExistStatus: 3
+  textAssets:
+  - m_Name: UIPrefabConfig
+    m_Path: UIPrefabConfig
+    m_Type: TextAsset
+    m_ExistStatus: 2
+  audios: []
+  videos: []
+  renderTextures: []
+  materials: []
+  prefabs: []
+  movieTextures: []

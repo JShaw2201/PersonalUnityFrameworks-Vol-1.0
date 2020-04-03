@@ -133,8 +133,8 @@ namespace ResLibary
                         sfObj.m_Asset = Sprite.Create(tex2d, new Rect(0, 0, tex2d.width, tex2d.height), Vector2.zero);
                     }
                     string fullFileName = System.IO.Path.GetFileName(localUrl);
-                    int position = fullFileName.LastIndexOf(".");
-                    string fileName = fullFileName.Substring(0, position - 1);
+                    //int position = fullFileName.LastIndexOf(".");
+                    string fileName = System.IO.Path.GetFileNameWithoutExtension(localUrl);//fullFileName.Substring(0, position - 1);
                     sfObj.m_Name = fileName;
                     if (!resourceDict.ContainsKey(sfObj.m_Type))
                     {
@@ -168,8 +168,8 @@ namespace ResLibary
                 if (fileObj != null)
                 {
                     string fullFileName = System.IO.Path.GetFileName(localUrl);
-                    int position = fullFileName.LastIndexOf(".");
-                    string fileName = fullFileName.Substring(0, position - 1);
+                    //int position = fullFileName.LastIndexOf(".");
+                    string fileName = System.IO.Path.GetFileNameWithoutExtension(localUrl);//fullFileName.Substring(0, position - 1);
                     fileObj.m_Name = fileName;
                     if (!resourceDict.ContainsKey(fileObj.m_Type))
                     {

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78a230ddab692364aa59ebef7f002147, type: 3}
+  m_Name: StreamingAssetLibarySetting
+  m_EditorClassIdentifier: 
+  texture2ds:
+  - m_Name: beautifulgirl
+    m_Path: beautifulgirl.png
+    m_Type: Texture2D
+    m_ExistStatus: 2
+  sprites:
+  - m_Name: beautifulgirl
+    m_Path: beautifulgirl.png
+    m_Type: Sprite
+    m_ExistStatus: 3
+  textAssets:
+  - m_Name: BuildingSceneConfig
+    m_Path: BuildingSceneConfig.json
+    m_Type: TextAsset
+    m_ExistStatus: 2
+  - m_Name: resourceInfor
+    m_Path: resourceInfor.json
+    m_Type: TextAsset
+    m_ExistStatus: 2
+  audios: []
+  videos: []

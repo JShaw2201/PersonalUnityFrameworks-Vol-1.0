@@ -308,9 +308,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 264792674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b99423d7cd4047e4f8a1189680cfa8af, type: 3}
+  m_Script: {fileID: 11500000, guid: d5c9b4bee3920e147bb3329ec4e5bf41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rawImage1: {fileID: 1593725195}
+  rawImage2: {fileID: 798138508}
+  rawImage3: {fileID: 155038573}
 --- !u!1 &565245262
 GameObject:
   m_ObjectHideFlags: 0

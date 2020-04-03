@@ -133,30 +133,29 @@ public class ResLibaryMgr :MonoBehaviour, ILibaryHandle
             libaryDict[libaryStateObj.m_Name] = new Dictionary<string, LibaryStateObj>();
         }
         Dictionary<string, LibaryStateObj> lDict = libaryDict[libaryStateObj.m_Name];
-        if (lDict.ContainsKey(libaryStateObj.m_Name))
+        if (lDict.ContainsKey(libaryStateObj.m_Type))
         {
             LibaryStateObj lobj = lDict[libaryStateObj.m_Type];
             switch (lobj.m_Status)
             {
                 case LibaryStatusEnum.DIR_ASSETS:
-                    assetsLibary.DeleteLiibrary(libaryStateObj.m_Type,libaryStateObj.m_Name);
+                    assetsLibary.DeleteLiibrary(lobj.m_Type, lobj.m_Name);
                     break;
                 case LibaryStatusEnum.DIR_ASSETBUNDER:
-                    bundleLibary.DeleteLiibrary(libaryStateObj.m_Type, libaryStateObj.m_Name);
+                    bundleLibary.DeleteLiibrary(lobj.m_Type, lobj.m_Name);
                     break;
                 case LibaryStatusEnum.DIR_STREAMINGASSET:
-                    streamming.DeleteLiibrary(libaryStateObj.m_Type, libaryStateObj.m_Name);
+                    streamming.DeleteLiibrary(lobj.m_Type, lobj.m_Name);
                     break;
                 case LibaryStatusEnum.DIR_FILE:
-                    fileLibary.DeleteLiibrary(libaryStateObj.m_Type, libaryStateObj.m_Name);
+                    fileLibary.DeleteLiibrary(lobj.m_Type, lobj.m_Name);
                     break;
                 case LibaryStatusEnum.DIR_RESOURCE:
-                    resourceLibary.DeleteLiibrary(libaryStateObj.m_Type, libaryStateObj.m_Name);
+                    resourceLibary.DeleteLiibrary(lobj.m_Type, lobj.m_Name);
                     break;
             }
         }
         lDict[libaryStateObj.m_Type] = libaryStateObj;
-
         libaryDict[libaryStateObj.m_Name] = lDict;
     }
 
